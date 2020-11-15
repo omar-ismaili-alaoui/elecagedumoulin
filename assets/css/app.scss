@@ -1,0 +1,29 @@
+/*
+ * Main SASS file for paroledemamans.com
+ * Do NOT write (s)css directly in this file
+ * but import files
+ */
+
+// Fonts first!
+@import "../font/css/fontawesome"; //(has to be soon replaced by svg)
+//glyphiconshalflings-regular loaded a bit later by bootstrap (but has to be soon replaced by svg)
+@import "../font/css/opensans-condbold";
+@import "../font/css/vidaloka-regular";
+
+// Bootstrap
+@import "bootstrap-variables";
+@import "bootstrap";
+
+// site specific
+//@import "global_in_sass";
+@import "styles";
+
+/*
+ * ToDo (unordered)
+ *
+ * class names
+ * font-family
+ * use SASS variables
+ * remove !important
+ * factorization
+ */

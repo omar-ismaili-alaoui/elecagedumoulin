@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "bootstrap-sass": "^3.4.1",
+    "del": "^6.0.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "font-awesome": "^4.7.0",
+    "fonteditor-core": "^2.1.5",
+    "fontmin": "^0.9.8",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-combine-mq": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-minify-css-names": "^1.6.0",
+    "gulp-preservetime": "^1.2.1",
+    "gulp-replace": "^1.0.0",
+    "gulp-rev": "^9.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-strip-css-comments": "^2.0.0",
+    "gulp-ttf2woff2": "^3.0.0",
+    "gulp-uglify": "^3.0.2",
+    "jquery": "^3.5.1",
+    "mobile-detect": "^1.4.4",
+    "moment": "^2.29.1",
+    "multiple-select": "^1.5.2",
+    "run-sequence": "^2.2.1",
+    "select2": "^4.0.13",
+    "vanilla-lazyload": "^17.1.3"
+  }
+}

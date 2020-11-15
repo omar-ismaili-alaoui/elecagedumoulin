@@ -1,0 +1,42 @@
+$fa-version: '4.7.0';
+$fa-css-prefix:       'fa';
+$fa-font-path:        "fontawesome/#{$fa-version}";
+$fa-font-size-base:   16px;
+$fa-line-height-base: 1;
+
+/*!
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+
+@import "variables";
+@import "mixins";
+//@import "path";### removed cause of question marks in URL
+@import "core";
+//@import "larger";
+//@import "fixed-width";
+//@import "list";
+//@import "bordered-pulled";
+//@import "animated";
+//@import "rotated-flipped";
+//@import "stacked";
+@import "icons";
+//@import "screen-reader";### exists in bootstrap
+
+.#{$fa-css-prefix} {
+    width: (18em / 14);
+    text-align: center;
+}
+
+@font-face {
+    font-family: 'FontAwesome';
+    src: url('../font/#{$fa-font-path}/fontawesome-webfont.eot') format('embedded-opentype'); /* IE9+ compat */
+    src:
+        url('../font/#{$fa-font-path}/fontawesome-webfont.woff2') format('woff2'), /* Super modern browsers */
+        url('../font/#{$fa-font-path}/fontawesome-webfont.woff') format('woff'), /* Modern browsers */
+        url('../font/#{$fa-font-path}/fontawesome-webfont.eot?#iefix') format('embedded-opentype')  /* IE6-IE8 */
+    ;
+    font-weight: normal;
+    font-style: normal;
+//  font-display: auto;
+}
