@@ -49,6 +49,36 @@ gulp.task('css', function() {
         ;
 });
 
+
+gulp.task('css_admin', function() {
+    return gulp.src('assets_admin/css/app-admin.scss')
+    //        .pipe(sourcemaps.init())
+        .pipe(sass({
+            includePaths: [
+                'node_modules/bootstrap-sass/assets/stylesheets',
+                'node_modules/font-awesome/scss',
+                'node_modules/select2/src/scss',
+            ],
+        }).on('error', sass.logError))
+        .pipe(autoprefixer())
+        .pipe(stripCssComments({
+            preserve: false,
+        }))
+        .pipe(replace('@charset "UTF-8";', ''))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        //        .pipe(sourcemaps.write('./'))
+
+        .pipe(rev())
+        .pipe(gulp.dest('public/assets_admin/css/'))
+        .pipe(rev.manifest("rev-manifest-admin.json", {
+            base:  '.',
+            merge: true,
+        }))
+        //        .pipe(concat('node_modules/select2/dist/css/select2.min.css'))
+        .pipe(gulp.dest('.'))
+        ;
+});
+
 gulp.task('font', function() {
     var fontmin = new Fontmin()
         .src('assets/font/src/**/*.ttf')
@@ -206,7 +236,7 @@ gulp.task('js', function() {
 });
 
 
-gulp.task('watch', gulp.series('css', 'font', 'media', 'js', function () {
+gulp.task('watch', gulp.series('css', 'font', 'media', 'js', 'css_admin', function () {
 
     gulp.watch(
         [
@@ -242,4 +272,4 @@ gulp.task('watch', gulp.series('css', 'font', 'media', 'js', function () {
     })
 );
 
-gulp.task('default', gulp.series('css', 'font', 'media', 'js'));
+gulp.task('default', gulp.series('css', 'font', 'media', 'js', 'css_admin'));

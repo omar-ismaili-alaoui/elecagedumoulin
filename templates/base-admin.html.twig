@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="theme-color" content="#ffffff">
+        <title>Élevage du moulin - ADMIN - {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ assets_versionning_admin('app-admin.css') }}">
+    </head>
+    <body cz-shortcut-listen="true">
+        <header>
+            {% block header %}
+            {{ render(controller('App\\Controller\\HeaderController::admin')) }}
+            {% endblock %}
+        </header>
+        <div class="clear"></div>
+        <div id="off_container">
+            {% block body %}
+            {% endblock %}
+        </div>
+    {% block javascripts %}{% endblock %}
+    </body>
+</html>
+

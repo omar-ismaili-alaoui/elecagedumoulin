@@ -11,8 +11,11 @@ class HeaderController extends AbstractController
 
     public function index(): Response
     {
-        return $this->render('header/index.html.twig', [
-            'controller_name' => 'HeaderController',
-        ]);
+        return $this->render('header/index.html.twig', []);
+    }
+
+    public function admin(): Response
+    {
+        return $this->render('header/admin.html.twig', []);
     }
 }

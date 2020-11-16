@@ -8,27 +8,32 @@
 
 namespace App\Security;
 
+use App\Entity\USer;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 
-class AdminAuthenticator extends AbstractFormLoginAuthenticator
+class UserAuthenticator extends AbstractFormLoginAuthenticator
 {
     private $userRepository;
     private $router;
     private $flashBag;
     private $entityManager;
 
-    public function __construct(UserRepository $userRepository, RouterInterface $router, FlashBagInterface $flashBag, EntityManagerInterface $entityManager)
+    public function __construct(UserRepository $userRepository, RouterInterface $router, FlashBagInterface $flashBag,
+                                EntityManagerInterface $entityManager)
     {
         $this->userRepository = $userRepository;
         $this->router = $router;
@@ -91,8 +96,8 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         return [
-            'username' => $request->request->get('_username'),
-            'password' => $request->request->get('_password'),
+            'username' => $request->request->get('email'),
+            'password' => $request->request->get('password'),
         ];
     }
 
@@ -113,7 +118,7 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $email = $credentials["username"];
+        $email = $credentials["email"];
 
         $user = $this->userRepository->findOneBy(["email" => $email]);
 
@@ -142,11 +147,43 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator
     public function checkCredentials($credentials, UserInterface $user)
     {
         $nonCryptedPassword = $credentials["password"];
-        if (password_verify($nonCryptedPassword, $user->getPassword())) {
-                return true;
+        if (password_verify($nonCryptedPassword, $user->getUserPass())) {
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            return true;
         }
         $this->flashBag->set("danger", "Mauvais combo Email/Mot de passe");
         return false;
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        if ($request->hasSession()) {
+            $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+        }
+
+        $url = $this->getLoginUrl();
+
+        $hostTab = explode('.',$request->getHttpHost());
+        if(count($hostTab) >= 3){
+            if(strpos($request->server->get('SERVER_NAME'), '127.0.0.1') !== FALSE ||
+                strpos($request->server->get('SERVER_NAME'), 'localhost') !== FALSE) {
+                $protocol = "http://";
+            }
+            else {
+                $protocol = "https://";
+            }
+            if (null !== $qs = $request->getQueryString()) {
+                $qs = '?'.$qs;
+            }
+            $url = $protocol.$request->getHttpHost().$qs;
+            dump($url);
+
+            //exit();
+            return new RedirectResponse($url, 301);
+        }
+        return new RedirectResponse($url);
+
     }
 
     /**
@@ -166,11 +203,10 @@ class AdminAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-/*        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
-
-        if (!$targetPath) {
-            $targetPath = $this->router->generate('homepage');
-        }*/
-        return new RedirectResponse($this->router->generate('admin_homepage'));
+        if(isset($_POST['redirectUrl'])){
+            return new RedirectResponse($_POST['redirectUrl']);
+        }
+        return new RedirectResponse($this->router->generate('el_welcome'));
     }
+
 }
