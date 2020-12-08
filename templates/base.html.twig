@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Élevage du moulin - {% block title %}{% endblock %}</title>
+        <meta name="description" content="{% block description %}{% endblock %}" />
+        <meta name="keywords" content="{% block keywords %}{% endblock %}" />
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ assets_versionning('app.css') }}">
         {% endblock %}
+        <link href="/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+        <!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <link rel="stylesheet" href="/css/template.css" media="screen" type="text/css" />
+        <!--[if lte IE 7]><link rel="stylesheet" href="/css/template.ie7.css" media="screen" /><![endif]-->
+        <!-- Created by Artisteer v4.2.0.60623 -->
+        <meta name="google-site-verification" content="TQqAzJZ1OQw0wScXxi6nDtH96D7MDo_9ZMYQlefCLrM" />
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135457392-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-135457392-1');
+        </script>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
     </head>
 
     <body cz-shortcut-listen="true">
-        <header>
-            {% block header %}
-            {{ render(controller('App\\Controller\\HeaderController::index')) }}
-            {% endblock %}
-        </header>
         <div class="clear"></div>
-        <div id="off_container">
-            <div class="container">
+            <header>
+                {% block header %}
+                    {{ render(controller('App\\Controller\\HeaderController::index')) }}
+                {% endblock %}
+            </header>
+            {% block carousel %}{% endblock %}
+            <div class="clear"></div>
+            {% block body %}
                 <div class="col-md-8 col-sm-12 col-xs-12">
-                    {% block body %}{% endblock %}
+                    {% block leftContent %}{% endblock %}
                     <div class="clear"></div>
                 </div>
                 <div class="col-md-4 col-sm-12 col-xs-12">
@@ -27,13 +47,14 @@
                     {% endblock %}
                     <div class="clear"></div>
                 </div>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    {% block footer %}
-                        {{ render(controller('App\\Controller\\FooterController::index')) }}
-                    {% endblock %}
-                </div>
-            </div> <!-- /container -->
-        </div>
-    {% block javascripts %}{% endblock %}
+            {% endblock %}
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                {% block footer %}
+                    {{ render(controller('App\\Controller\\FooterController::index')) }}
+                {% endblock %}
+            </div>
+    {% block javascripts %}
+        <script async src="{{ assets_versionning('public/assets/js/app.js') }}"></script>
+    {% endblock %}
     </body>
 </html>

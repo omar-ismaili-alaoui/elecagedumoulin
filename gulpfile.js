@@ -206,6 +206,7 @@ gulp.task('js', function() {
             'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
 
             'assets/js/croppie.min.js',
+            'assets/js/rater-js.js',
 
             // mobile detection for SmartAds
             'node_modules/mobile-detect/mobile-detect.js',
