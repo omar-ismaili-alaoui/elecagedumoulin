@@ -27,6 +27,16 @@ class Race
      */
     private $active;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $couleur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Sexe::class, inversedBy="race")
+     */
+    private $sexe;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +64,35 @@ class Race
         $this->active = $active;
 
         return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(string $couleur): self
+    {
+        $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    public function getSexe(): ?Sexe
+    {
+        return $this->sexe;
+    }
+
+    public function setSexe(?Sexe $sexe): self
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->titre . ' / ' . $this->couleur . ' / ' . $this->sexe ;
     }
 
 }

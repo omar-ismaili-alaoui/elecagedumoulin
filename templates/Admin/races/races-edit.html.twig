@@ -1,0 +1,21 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <h1 class="page-h<eader">Ajouter une race</h1>
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_row(form.titre) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.couleur) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.sexe) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.active) }}
+    </div>
+    <button type="submit" class="btn btn-success">Ajouter</button>
+    <a href="{{ path('admin_races') }}" class="btn btn-primary">Retour</a>
+    {{ form_end(form) }}
+{% endblock %}

@@ -11,7 +11,7 @@ class SidebarController extends AbstractController
 
     public function index(): Response
     {
-        return $this->render('sidebar/index.html.twig', [
+        return $this->render('Front/sidebar/index.html.twig', [
             'controller_name' => 'SidebarController',
         ]);
     }

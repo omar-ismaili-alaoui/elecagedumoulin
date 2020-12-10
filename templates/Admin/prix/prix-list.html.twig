@@ -1,0 +1,36 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <h1 class="page-h<eader">Les prix des races</h1>
+    <hr>
+    <div class="col-md-12">
+        <a href="{{ path('admin_prices_add') }}" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-plus"></i> Ajouter une prix</a>
+    </div>
+    <hr>
+
+    <h2 class="sub-header">Liste des prix</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Prix</th>
+                <th>Race</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for prix in allPrices %}
+                <tr>
+                    <td>{{ prix.id }}</td>
+                    <td>{{ prix.prix }}</td>
+                    <td>{{ prix.race }}</td>
+                    <td>
+                        <a href="{{ path('admin_prices_edit',{'id':prix.id }) }}" class="btn btn-success"><i class=""></i> Éditer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

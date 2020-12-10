@@ -1,0 +1,44 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <h1 class="page-h<eader">Les races enregistrés</h1>
+    <hr>
+    <div class="col-md-12">
+        <a href="{{ path('admin_races_add') }}" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-plus"></i> Ajouter une race</a>
+    </div>
+    <hr>
+
+    <h2 class="sub-header">Liste des races</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Race</th>
+                <th>Couleur</th>
+                <th>Sexe</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for race in allRaces %}
+            <tr>
+                <td>{{ race.id }}</td>
+                <td>{{ race.titre}}</td>
+                <td>{{ race.couleur }}</td>
+                <td>{{ race.sexe }}</td>
+                <td>{{ race.active | badge }}</td>
+                <td>
+                    <a href="{{ path('admin_races_edit',{'id':race.id }) }}" class="btn btn-success"><i class=""></i> Éditer</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% if allRaces != '' %}
+            {{ knp_pagination_render(allRaces, null, {}, {'style': 'pager'}) }}
+        {% endif %}
+    </div>
+{% endblock %}

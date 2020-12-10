@@ -11,7 +11,7 @@ class FooterController extends AbstractController
 
     public function index(): Response
     {
-        return $this->render('footer/index.html.twig', [
+        return $this->render('Front/footer/index.html.twig', [
             'controller_name' => 'FooterController',
         ]);
     }

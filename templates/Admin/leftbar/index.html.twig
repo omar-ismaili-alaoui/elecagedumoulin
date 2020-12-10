@@ -1,0 +1,7 @@
+<ul class="nav nav-sidebar">
+    <li {% if route == 'admin_annonces' %}class="active"{% endif %}><a href="{{ path('admin_annonces')}}">Annonces <span class="sr-only">(current)</span></a></li>
+    <li {% if route == 'admin_races' %}class="active"{% endif %}><a href="{{ path('admin_races')}}">Races</a></li>
+    <li {% if route == 'admin_commentaires' %}class="active"{% endif %}><a href="{{ path('admin_commentaires')}}">Commentaires</a></li>
+    <li {% if route == 'admin_prix' %}class="active"{% endif %}><a href="{{ path('admin_prix')}}">Prix</a></li>
+</ul>
+

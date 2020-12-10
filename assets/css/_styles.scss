@@ -7,6 +7,13 @@ body {
   color: #5a5a5a;
 }
 
+.navbar-inverse .navbar-nav>li>a {
+  color: #FFFFFF;
+}
+
+.navbar.navbar-inverse.navbar-static-top{
+  background: radial-gradient(black, #48B309);
+}
 
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
