@@ -37,6 +37,11 @@ class Race
      */
     private $sexe;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=RaceGroup::class, inversedBy="race")
+     */
+    private $raceGroup;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -93,6 +98,18 @@ class Race
     public function __toString()
     {
         return $this->titre . ' / ' . $this->couleur . ' / ' . $this->sexe ;
+    }
+
+    public function getRaceGroup(): ?RaceGroup
+    {
+        return $this->raceGroup;
+    }
+
+    public function setRaceGroup(?RaceGroup $raceGroup): self
+    {
+        $this->raceGroup = $raceGroup;
+
+        return $this;
     }
 
 }
