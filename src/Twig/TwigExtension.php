@@ -11,7 +11,8 @@ class TwigExtension extends AbstractExtension
     public function getFilters()
     {
         return array(
-            new TwigFilter('badge', [ $this, 'badgeFunction' ], ['is_safe' => ['html']])
+            new TwigFilter('badge', [ $this, 'badgeFunction' ], ['is_safe' => ['html']]),
+            new TwigFilter('booleanBadge', [ $this, 'booleanFunction' ], ['is_safe' => ['html']])
         );
     }
 
@@ -22,6 +23,17 @@ class TwigExtension extends AbstractExtension
             $text = '<span class="label label-success">Active</span>';
         }else{
             $text = '<span class="label label-danger">Incative</span>';
+        }
+        return $text;
+    }
+
+    public function booleanFunction($value)
+    {
+        $text = "";
+        if($value == 1){
+            $text = '<span class="label label-success">Oui</span>';
+        }else{
+            $text = '<span class="label label-danger">Non</span>';
         }
         return $text;
     }

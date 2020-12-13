@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Annonce;
 use App\Entity\Prix;
 use App\Entity\Race;
+use App\Form\AnnonceType;
 use App\Form\PrixType;
 use App\Form\RaceType;
 use App\Repository\AnnonceRepository;
@@ -143,9 +144,14 @@ class AdminController extends AbstractController
     /**
      * @Route("/annonces", name="admin_annonces")
      */
-    public function annonces(): Response
+    public function annonces(Request $request): Response
     {
         $allAnnonces = $this->annonceRepository->findAll();
+        $allAnnonces = $this->paginator->paginate(
+            $allAnnonces,
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('Admin/annonces/annoces-list.html.twig', [
             'allAnnonces' => $allAnnonces,
         ]);
@@ -156,17 +162,18 @@ class AdminController extends AbstractController
      */
     public function annonceAdd(Request $request): Response
     {
-        $price = new Annonce();
-        $form = $this->createForm(PrixType::class, $price);
+        $annonce = new Annonce();
+        $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $price->setPrix($request->get('prix')['prix']);
+
+            /*$price->setPrix($request->get('prix')['prix']);
             $price->setRace($this->raceRepository->find($request->get('prix')['race']));
             $this->entityManager->persist($price);
-            $this->entityManager->flush();
-            return $this->redirectToRoute('admin_prix');
+            $this->entityManager->flush();*/
+            return $this->redirectToRoute('admin_annonces');
         }
-        return $this->render('Admin/prix/prix-add.html.twig', [
+        return $this->render('Admin/annonces/annonce-add.html.twig', [
             'form' => $form->createView(),
         ]);
     }

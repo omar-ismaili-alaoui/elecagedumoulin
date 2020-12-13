@@ -52,10 +52,11 @@ gulp.task('css', function() {
 
 gulp.task('css_admin', function() {
     return gulp.src('assets_admin/css/app-admin.scss')
-    //        .pipe(sourcemaps.init())
+
         .pipe(sass({
             includePaths: [
                 'node_modules/bootstrap-sass/assets/stylesheets',
+                'node_modules/eonasdan-bootstrap-datetimepicker/src/sass',
                 'node_modules/font-awesome/scss',
                 'node_modules/select2/src/scss',
             ],
@@ -101,6 +102,32 @@ gulp.task('font', function() {
     return gulp.src('assets/font/src/**/*.ttf')
         .pipe(ttf2woff2())
         .pipe(gulp.dest('public/assets/font/'))
+        .pipe(preservetime())
+        ;
+});
+
+gulp.task('font_admin', function() {
+    var fontmin = new Fontmin()
+        .src('assets_admin/font/src/**/*.ttf')
+        .use(Fontmin.ttf2eot())
+        .use(Fontmin.ttf2woff({
+            deflate: true,
+        }))
+        .dest('public/assets_admin/font/')
+    ;
+
+    fontmin.run(function(err, files) {
+        if (err) {
+            throw err;
+        }
+
+        del.sync(['public/assets_admin/font/**/*.ttf']);
+        //console.log('Please add fontname.scss in assets/font/css/');
+    });
+
+    return gulp.src('assets_admin/font/src/**/*.ttf')
+        .pipe(ttf2woff2())
+        .pipe(gulp.dest('public/assets_admin/font/'))
         .pipe(preservetime())
         ;
 });
@@ -231,13 +258,56 @@ gulp.task('js', function() {
         }))
         .pipe(gulp.dest('.'))
 
-        /*        .pipe(sourcemaps.write('.'))
-                .pipe(gulp.dest('.'))*/
-        ;
+});
+
+gulp.task('js_admin', function() {
+    return gulp.src(
+        [
+            'node_modules/jquery/dist/jquery.js',
+
+            //bootstrap
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/button.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/carousel.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/modal.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/affix.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
+            'node_modules/bootstrap-sass/assets/javascripts/bootstrap/popover.js',
+
+            // select2
+            'node_modules/select2/dist/js/select2.full.js',
+            'node_modules/select2/dist/js/i18n/fr.js',
+
+            // multiple-select
+            'node_modules/multiple-select/dist/multiple-select.js',
+
+            // DatePicker
+            'node_modules/moment/moment.js',
+            'node_modules/moment/locale/fr.js',
+            'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
+
+            'assets_admin/js/all.js'
+        ])
+
+        .pipe(concat('public/assets_admin/js/app-admin.js'))
+        .pipe(uglify())
+
+        .pipe(rev())
+        .pipe(gulp.dest('.'))
+        .pipe(rev.manifest('rev-manifest-admin.json', {
+            base:  '.',
+            merge: true,
+        }))
+        .pipe(gulp.dest('.'))
 });
 
 
-gulp.task('watch', gulp.series('css', 'font', 'media', 'js', 'css_admin', function () {
+gulp.task('watch', gulp.series('css', 'font', 'media', 'js', 'css_admin', 'js_admin', 'font_admin', function () {
 
     gulp.watch(
         [
@@ -273,4 +343,4 @@ gulp.task('watch', gulp.series('css', 'font', 'media', 'js', 'css_admin', functi
     })
 );
 
-gulp.task('default', gulp.series('css', 'font', 'media', 'js', 'css_admin'));
+gulp.task('default', gulp.series('css', 'font', 'media', 'js', 'css_admin', 'js_admin', 'font_admin'));

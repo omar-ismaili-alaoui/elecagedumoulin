@@ -53,7 +53,9 @@
                 </div>
             </div>
         </div>
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+        <script src="{{ assets_versionning_admin('public/assets_admin/js/app-admin.js') }}"></script>
+    {% endblock %}
     </body>
 </html>
 

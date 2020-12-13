@@ -7,12 +7,37 @@ body {
   color: #5a5a5a;
 }
 
-.navbar-inverse .navbar-nav>li>a {
-  color: #FFFFFF;
+.navbar-inverse .navbar-nav{
+  li.active a{
+    background: #1b9448;
+  }
+  &:hover>li.active>a{
+    color: #FFFFFF;
+  }
+  &:hover>li>a,
+  &>li>a {
+    color: #000000;
+  }
+}
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
+  border-color: #1b9448;
 }
 
+
+
 .navbar.navbar-inverse.navbar-static-top{
-  background: radial-gradient(black, #48B309);
+  background: #FFFFFF;
+}
+
+.navbar-inverse .navbar-brand{
+  color: #FFF;
+}
+
+.navbar-brand{
+  padding: 0;
+  img{
+    height: 50px;
+  }
 }
 
 /* CUSTOMIZE THE NAVBAR

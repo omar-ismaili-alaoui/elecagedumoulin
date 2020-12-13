@@ -6,6 +6,7 @@ use App\Repository\AnnonceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AnnonceRepository::class)
@@ -21,11 +22,13 @@ class Annonce
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le titre de l'annonce est obligtoire")
      */
     private $titre;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="Format erroné")
      */
     private $datePublished;
 
@@ -45,9 +48,64 @@ class Annonce
     private $annonceImages;
 
     /**
-     * @ORM\OneToOne(targetEntity=Race::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Race::class, cascade={"persist", "remove"})
      */
     private $race;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $vermifuge;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $taouage;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $vaccined;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $loof;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $dateNaissance;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $dateDispo;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $portee;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $certificat;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nbTatouage;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPortee;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
 
     public function __construct()
     {
@@ -145,6 +203,138 @@ class Annonce
     public function setRace(?Race $race): self
     {
         $this->race = $race;
+
+        return $this;
+    }
+
+    public function getVermifuge(): ?bool
+    {
+        return $this->vermifuge;
+    }
+
+    public function setVermifuge(bool $vermifuge): self
+    {
+        $this->vermifuge = $vermifuge;
+
+        return $this;
+    }
+
+    public function getTaouage(): ?bool
+    {
+        return $this->taouage;
+    }
+
+    public function setTaouage(bool $taouage): self
+    {
+        $this->taouage = $taouage;
+
+        return $this;
+    }
+
+    public function getVaccined(): ?bool
+    {
+        return $this->vaccined;
+    }
+
+    public function setVaccined(bool $vaccined): self
+    {
+        $this->vaccined = $vaccined;
+
+        return $this;
+    }
+
+    public function getLoof(): ?bool
+    {
+        return $this->loof;
+    }
+
+    public function setLoof(bool $loof): self
+    {
+        $this->loof = $loof;
+
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(\DateTimeInterface $dateNaissance): self
+    {
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    public function getDateDispo(): ?\DateTimeInterface
+    {
+        return $this->dateDispo;
+    }
+
+    public function setDateDispo(\DateTimeInterface $dateDispo): self
+    {
+        $this->dateDispo = $dateDispo;
+
+        return $this;
+    }
+
+    public function getPortee(): ?int
+    {
+        return $this->portee;
+    }
+
+    public function setPortee(int $portee): self
+    {
+        $this->portee = $portee;
+
+        return $this;
+    }
+
+    public function getCertificat(): ?bool
+    {
+        return $this->certificat;
+    }
+
+    public function setCertificat(bool $certificat): self
+    {
+        $this->certificat = $certificat;
+
+        return $this;
+    }
+
+    public function getNbTatouage(): ?string
+    {
+        return $this->nbTatouage;
+    }
+
+    public function setNbTatouage(string $nbTatouage): self
+    {
+        $this->nbTatouage = $nbTatouage;
+
+        return $this;
+    }
+
+    public function getIsPortee(): ?bool
+    {
+        return $this->isPortee;
+    }
+
+    public function setIsPortee(bool $isPortee): self
+    {
+        $this->isPortee = $isPortee;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

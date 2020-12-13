@@ -14,23 +14,43 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>Prix</th>
+                <th>Titre</th>
+                <th>Portee</th>
+                <th>Publiée</th>
+                <th>Naissance</th>
+                <th>Disponible</th>
                 <th>Race</th>
-                <th>Actions</th>
+                <th>Vermifuge</th>
+                <th>Vaccined</th>
+                <th>Taouage</th>
+                <th>NbTatouage</th>
+                <th>Loof</th>
+                <th>Certificat</th>
             </tr>
             </thead>
             <tbody>
             {% for annonce in allAnnonces %}
                 <tr>
-                    <td>{{ prix.id }}</td>
-                    <td>{{ prix.prix }}</td>
-                    <td>{{ prix.race }}</td>
+                    <td>{{ annonce.id }}</td>
+                    <td>{{ annonce.titre }}</td>
+                    <td>{{ annonce.portee }}</td>
+                    <td>{{ annonce.datePublished | date('d-m-Y')  }}</td>
+                    <td>{{ annonce.dateNaissance | date('d-m-Y') }}</td>
+                    <td>{{ annonce.dateDispo | date('d-m-Y') }}</td>
+                    <td>{{ annonce.race }}</td>
+                    <td>{{ annonce.vermifuge | booleanBadge }}</td>
+                    <td>{{ annonce.vaccined | booleanBadge }}</td>
+                    <td>{{ annonce.taouage | booleanBadge }}</td>
+                    <td>{{ annonce.nbTatouage }}</td>
+                    <td>{{ annonce.loof | booleanBadge }}</td>
+                    <td>{{ annonce.certificat | booleanBadge }}</td>
                     <td>
-                        <a href="{{ path('admin_prices_edit',{'id':prix.id }) }}" class="btn btn-success"><i class=""></i> Éditer</a>
+                        {#<a href="{{ path('admin_prices_edit',{'id':prix.id }) }}" class="btn btn-success"><i class=""></i> Éditer</a>#}
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {{ knp_pagination_render(allAnnonces, null, {}, {'style': 'pager'}) }}
     </div>
 {% endblock %}
