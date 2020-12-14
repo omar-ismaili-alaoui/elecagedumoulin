@@ -57,10 +57,11 @@ class DefaultController extends AbstractController
     /**
      * @Route("/nos-races/{group}", name="el_race_group", requirements={"page"="\d+"}, defaults={"group"=1})
      */
-    public function racesGroup(): Response
+    public function racesGroup($group): Response
     {
+        $races = $this->groupRepository->find($group);
         return $this->render('Front/races/race-group.html.twig', [
-            'controller_name' => 'DefaultController',
+            'races' => $races,
         ]);
     }
 

@@ -33,17 +33,18 @@
             </div>
             <div class="col-md-5{% if loop.index is divisible by 2 %} col-md-pull-7{% endif %}">
                 {% include "Front/annonces/annonces-images.html.twig" with {"annonce": annonce} %}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalImages">
+                <br/><br/>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalImages-{{ loop.index }}">
                     <i class="glyphicon glyphicon-picture"></i> Agrandir les images
                 </button>
 
                 <!-- Modal -->
-                <div class="modal fade" id="modalImages" tabindex="-1" role="dialog" aria-labelledby="modalImagesLabel">
+                <div class="modal fade" id="modalImages-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="modalImages-{{ loop.index }}-Label">
                     <div class="modal-dialog modal-bigger" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="modalImagesLabel">Images</h4>
+                                <h4 class="modal-title" id="modalImages-{{ loop.index }}-Label">Images</h4>
                             </div>
                             <div class="modal-body">
                                 {% include "Front/annonces/annonces-images-big.html.twig" with {"annonce": annonce} %}
@@ -63,5 +64,6 @@
     <div class="text-center center-block">
         {{ knp_pagination_render(annonces, null, {}, {'style': 'pager'}) }}
     </div>
+    <hr class="featurette-divider">
 </div>
 {% endblock %}

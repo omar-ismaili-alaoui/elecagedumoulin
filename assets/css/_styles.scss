@@ -2,6 +2,9 @@
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
 
+/* Sticky footer styles
+-------------------------------------------------- */
+
 body {
   padding-bottom: 40px;
   color: #5a5a5a;
@@ -31,9 +34,6 @@ body {
   background: #1b9448;
 }
 
-.navbar-wrapper .container.container-nav{
-  padding: 0 140px;
-}
 
 .marketing{
   margin-top: 0;
@@ -41,6 +41,10 @@ body {
 
 .page-title{
   margin-bottom: 50px;
+}
+
+footer li{
+  list-style: none;
 }
 
 .navbar.navbar-inverse.navbar-static-top{
@@ -88,56 +92,15 @@ p.lead{
   width: auto;
 }
 
-
-/* CUSTOMIZE THE CAROUSEL
--------------------------------------------------- */
-
-/* Carousel base class */
-.carousel {
-  height: 228.5px;
-  margin-bottom: 20px;
-}
-/* Since positioning the image, we need to help out the caption */
-.carousel-caption {
-  z-index: 10;
-}
-
-/* Declare heights because of positioning of img element */
-.carousel .item {
-  height: 228.5px;
-  background-color: #777;
-}
-.carousel-inner > .item > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  height: 228.5px;
-}
-
 .modal-dialog.modal-bigger{
   width: 672px;
 }
-
-/* Carousel base class */
-.carousel.zoom {
-  height: 320px;
-  margin-bottom: 20px;
+.navbar-inverse .navbar-toggle .icon-bar{
+  background-color: #0a0a0a;
 }
-
-/* Declare heights because of positioning of img element */
-.carousel.zoom .item {
-  height: 320px;
-  background-color: #777;
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover{
+  background-color: #FFFFFF;
 }
-.carousel.zoom .carousel-inner > .item > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  height: 320px;
-}
-
 
 /* MARKETING CONTENT
 -------------------------------------------------- */
@@ -177,11 +140,26 @@ p.lead{
   letter-spacing: -1px;
 }
 
+.featurette-image{
+  width: 100%;
+}
+
+#alimentation li,
+#palmares li{
+  margin: 10px 0;
+  list-style: none;
+}
+
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
 @media (min-width: 768px) {
+
+  .navbar-wrapper .container.container-nav{
+    padding: 0 240px;
+  }
+
   /* Navbar positioning foo */
   .navbar-wrapper {
     margin-top: 0;

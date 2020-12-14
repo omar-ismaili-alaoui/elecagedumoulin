@@ -30,6 +30,16 @@ class RaceGroup
     private $race;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $text;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RaceGroupImages::class, mappedBy="raceGroup")
+     */
+    private $raceGroupImages;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $image;
@@ -37,6 +47,7 @@ class RaceGroup
     public function __construct()
     {
         $this->race = new ArrayCollection();
+        $this->raceGroupImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,6 +91,48 @@ class RaceGroup
             // set the owning side to null (unless already changed)
             if ($race->getRaceGroup() === $this) {
                 $race->setRaceGroup(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RaceGroupImages[]
+     */
+    public function getRaceGroupImages(): Collection
+    {
+        return $this->raceGroupImages;
+    }
+
+    public function addRaceGroupImage(RaceGroupImages $raceGroupImage): self
+    {
+        if (!$this->raceGroupImages->contains($raceGroupImage)) {
+            $this->raceGroupImages[] = $raceGroupImage;
+            $raceGroupImage->setRaceGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRaceGroupImage(RaceGroupImages $raceGroupImage): self
+    {
+        if ($this->raceGroupImages->removeElement($raceGroupImage)) {
+            // set the owning side to null (unless already changed)
+            if ($raceGroupImage->getRaceGroup() === $this) {
+                $raceGroupImage->setRaceGroup(null);
             }
         }
 

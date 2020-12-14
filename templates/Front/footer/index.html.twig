@@ -1,4 +1,64 @@
-<hr>
-<footer>
-    <p>© 2016 Company, Inc.</p>
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <ul>
+                    <li>
+                        <a href="{{ path('el_welcome' )}}" title="Accueil">Accueil</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_dressage' )}}" title="Dressage">Dressage canin</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_race_group',{'group':1} )}}" title="Épagneuls bretons">Épagneuls bretons</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_race_group',{'group':2} )}}" title="Griffons krothals">Griffons krothals</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_race_group',{'group':3} )}}" title="Labradors Retriever">Labradors retriever</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_palmares' )}}" title="Palmarès">Palmarès</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul>
+                    <li>
+                        <a href="{{ path('el_etalons' )}}" title="Étalons">Étalons</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_pensions',{'type':'chien'} )}}" title="Pension pour chiens">Pension pour chiens</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_pensions',{'type':'chat'} )}}" title="Pension pour chats">Pension pour chats</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_annonces' )}}" title="Annonces">Annonces</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_emissions' )}}" title="Émission TV">Émission TV</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('el_contact' )}}" title="Contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="text-muted col-md-4 col-xs-12 col-sm-12">
+                <ul>
+                    <li>
+                        <a href="/index.php/mentions-legales">Mentions légales</a>
+                    </li>
+                    <li>
+                        <p>Copyright © 2016. All Rights Reserved.</p>
+                    </li>
+                    <li>
+                        <p>Developed by Baadgos</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
 </footer>
