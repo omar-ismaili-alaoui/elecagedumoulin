@@ -51,6 +51,7 @@ class AdminController extends AbstractController
         $this->prixRepository = $prixRepository;
         $this->annonceRepository = $annonceRepository;
     }
+
     /**
      * @Route("/", name="admin_homepage")
      */

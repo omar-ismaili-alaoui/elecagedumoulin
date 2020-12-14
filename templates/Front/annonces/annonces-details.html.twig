@@ -1,0 +1,22 @@
+<div class="row infos-complementaires">
+    <div class="col-md-12">
+        {% if annonce.vermifuge == 1 %}
+        <span class="label label-info">Varmifugé</span>
+        {% endif %}
+        {% if annonce.certificat == 1 %}
+        <span class="label label-info">Certificat de bonne santé fourni</span>
+        {% endif %}
+        {% if annonce.taouage == 1 %}
+        <span class="label label-info">Tatoué{% if annonce.nbTatouage != '' %} : {{ annonce.nbTatouage  }}{% endif %}</span>
+        {% endif %}
+        {% if annonce.vaccined == 1 %}
+            <span class="label label-info">Vacciné</span>
+        {% endif %}
+        {% if annonce.loof == 1 %}
+            <span class="label label-info">LOF</span>
+        {% endif %}
+        {% if annonce.portee != 0 %}
+            <span class="label label-info">Nombre de chiots dans la portée {{ annonce.portee }}</span>
+        {% endif %}
+    </div>
+</div>

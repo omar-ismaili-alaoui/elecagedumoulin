@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BdgAnnonceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class BdgAnnonce
      * @ORM\Column(type="boolean")
      */
     private $active;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BdgAnnonceImage::class, mappedBy="bdgAnnonceId")
+     */
+    private $bdgAnnonceImages;
+
+    public function __construct()
+    {
+        $this->bdgAnnonceImages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +115,36 @@ class BdgAnnonce
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BdgAnnonceImage[]
+     */
+    public function getBdgAnnonceImages(): Collection
+    {
+        return $this->bdgAnnonceImages;
+    }
+
+    public function addBdgAnnonceImage(BdgAnnonceImage $bdgAnnonceImage): self
+    {
+        if (!$this->bdgAnnonceImages->contains($bdgAnnonceImage)) {
+            $this->bdgAnnonceImages[] = $bdgAnnonceImage;
+            $bdgAnnonceImage->setBdgAnnonceId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBdgAnnonceImage(BdgAnnonceImage $bdgAnnonceImage): self
+    {
+        if ($this->bdgAnnonceImages->removeElement($bdgAnnonceImage)) {
+            // set the owning side to null (unless already changed)
+            if ($bdgAnnonceImage->getBdgAnnonceId() === $this) {
+                $bdgAnnonceImage->setBdgAnnonceId(null);
+            }
+        }
 
         return $this;
     }

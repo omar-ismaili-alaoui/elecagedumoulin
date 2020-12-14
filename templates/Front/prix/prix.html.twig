@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block carousel %}
+    <!-- Example row of columns -->
+    <div class="container marketing">
+
+        <div class="row">
+            <div class="col-md-12 center-block text-center">
+                <h1 class="page-title">LES PRIX DES DIFFÉRENTES PORTÉES DE CHIOTS</h1>
+            </div>
+        </div>
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            {% for groupPrice in groupPrices %}
+            <div class="col-lg-3 text-center">
+                <img class="img-circle" src="{{ asset(groupPrice.image) }}" alt="Generic placeholder image" width="140" height="140">
+                <h2>{{ groupPrice.titre }}</h2>
+                <p><a class="btn btn-default" href="#{{ groupPrice.titre }}" role="button">Voir les prix »</a></p>
+            </div><!-- /.col-lg-4 -->
+            {% endfor %}
+        </div><!-- /.row -->
+
+
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+        {% for groupPrice in groupPrices %}
+            {% if loop.index is divisible by 2 %}
+            <div class="row featurette" id="{{ groupPrice.titre }}">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">{{ groupPrice.titre }}</h2>
+                    <p class="lead">
+                    <ul class="list-group">
+                        {% for price in groupPrice.race %}
+                            <li class="list-group-item">
+                                <span class="badge">{{ render(controller('App\\Controller\\DefaultController::getPrice',{'race':price})) }}</span>
+                                <b>{{ price.titre }}</b> - <span class="label label-info">{{ price.sexe }}</span> - <span class="label label-primary">{{ price.couleur }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    </p>
+                </div>
+                <div class="col-md-5">
+                    <img class="featurette-image img-responsive center-block" data-src="" alt="500x500" src="{{ asset(groupPrice.image) }}" data-holder-rendered="true">
+                </div>
+            </div>
+            {% else %}
+            <div class="row featurette" id="{{ groupPrice.titre }}">
+                <div class="col-md-7 col-md-push-5">
+                    <h2 class="featurette-heading">{{ groupPrice.titre }}</h2>
+                    <p class="lead">
+                    <ul class="list-group">
+                        {% for price in groupPrice.race %}
+                        <li class="list-group-item">
+                            <span class="badge">{{ render(controller('App\\Controller\\DefaultController::getPrice',{'race':price})) }}</span>
+                            <b>{{ price.titre }}</b> - <span class="label label-info">{{ price.sexe }}</span> - <span class="label label-primary">{{ price.couleur }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    </p>
+                </div>
+                <div class="col-md-5 col-md-pull-7">
+                    <img class="featurette-image img-responsive center-block" data-src="" alt="500x500" src="{{ asset(groupPrice.image) }}" data-holder-rendered="true">
+                </div>
+            </div>
+            {% endif %}
+            <hr class="featurette-divider">
+        {% endfor %}
+
+    </div>
+{% endblock %}

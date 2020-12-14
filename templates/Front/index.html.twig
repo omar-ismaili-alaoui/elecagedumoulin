@@ -4,52 +4,99 @@
 
 {% block carousel %}
     <!-- Example row of columns -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1" class=""></li>
-            <li data-target="#myCarousel" data-slide-to="2" class=""></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img class="first-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="First slide">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Example headline.</h1>
-                        <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>One more for good measure.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
-                    </div>
-                </div>
+    <div class="container marketing">
+
+        <div class="row">
+            <div class="col-md-12 center-block text-center">
+                <h1 class="page-title">Bonjour et bienvenue sur notre site de pension canine et féline et notre élevage de chiens de races et d'arrêt</h1>
             </div>
         </div>
-        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ asset('PhotosSite/AccueilSite/yuliya.jpg') }}"/>
+            </div>
+            <div class="col-md-6">
+                <img src="{{ asset('PhotosSite/AccueilSite/Bernard.jpg') }}"/>
+            </div>
+            <div class="col-md-12">
+                <p class="lead center-block text-center">Nous sommes heureux de vous accueillir sur notre site internet d'élevage de chiens de chasse.<br/><br/>
+                Nous élevons principalement des chiens d'arrêt et des Labradors Retriever
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 center-block text-center">
+                <h2 class="page-title">Nos différentes races</h2>
+            </div>
+        </div>
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <img class="img-circle" src="{{ asset('PhotosSite/AccueilSite/EpagneulBreton.jpg') }}" alt="Generic placeholder image" width="140" height="140">
+                <h2>Épagneul breton</h2>
+                <p>L'épagneul breton est un chien sportif, solidement construit et compact sans être lourd. Il s'agit du plus petit des chiens d'arrêt mais paraît haut sur ses pattes...</p>
+                <p><a class="btn btn-default" href="{{ path('el_race_group', {'group':1}) }}" role="button">Plus d'informations »</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="img-circle" src="{{ asset('PhotosSite/AccueilSite/GriffonKhortals.JPG') }}" alt="Generic placeholder image" width="140" height="140">
+                <h2>Griffon korthal</h2>
+                <p>Le griffon Korthals est un chien d'arrêt de taille moyenne dont le corps tiens dans un rectangle. La queue est portée horizontalement, avec l'extrémité relevée, généralement raccourcie d'un tiers ou d'un quart...</p>
+                <p><a class="btn btn-default" href="{{ path('el_race_group', {'group':2}) }}" role="button">Plus d'informations »</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="img-circle" src="{{ asset('example-labrador.jpg')}}" alt="Generic placeholder image" width="140" height="140">
+                <h2>Labrador du reteaver</h2>
+                <p>Charpenté avec une allure arrondie, un Labrador ne doit pas être trop gros. La taille idéale est de 56 à 57 cm au garrot pour les mâles et 54 à 56 cm pour les femelles. La poitrine est bien descendue et les côtes bien développées...</p>
+                <p><a class="btn btn-default" href="{{ path('el_race_group', {'group':3}) }}" role="button">Plus d'informations »</a></p>
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+
+
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-12">
+                <h2 class="featurette-heading">Nôtre connaissance <span class="text-muted">à votre service</span></h2>
+                <p class="lead">
+                    <ul>
+                    <li>Nous prenons en pension vos compagnons dans notre pension pour chiens ou canine et dans notre pension pour chats ou féline.</li>
+                    <li>Nous vendons aussi des chiots des races précitées</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7 col-md-push-5">
+                <h2 class="featurette-heading text-center">Où nous trouver ? <span class="text-muted">C'est par là !</span></h2>
+                <p class="lead text-center">
+                    <b>Adresse postale</b><br/><br/>
+                    Yuliya MOULIN<br/>
+                    13, Chemin Charbonneau<br/>
+                    91630 - GUIBEVILLE<br/><br/>
+                    <b>Tel</b>: 01 64 56 17 36 - 06 32 20 32 66<br/><br/>
+                    <b>Horaires</b> : Du lundi au samedi, de 09:00 à 18:00<br/>
+                    <b>Fermé le dimanche</b><br/>
+                    <br/>
+                    <em>Pour nous rejoindre, cliquez <a href="https://www.google.com/maps/place/13+Chemin+Charbonneau,+91630+Guibeville/@48.5597226,2.2800382,17z/data=!3m1!4b1!4m5!3m4!1s0x47e5dae9695f60a5:0xd88351020263e88!8m2!3d48.5597226!4d2.2822269" rel="noopener noreferrer" target="_blank"><em>ICI</em></a>.</em><br/><br/>
+                    <em>Laissez-nous un message avec le formulaire de contact<br/> <a href="/index.php/contact"><strong>ICI</strong></a>, on vous répondra très rapidement : </em>
+                </p>
+            </div>
+            <div class="col-md-5 col-md-pull-7">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10562.469627133341!2d2.2822269!3d48.5597226!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x186537c33b95dd7c!2sElevage%20Du%20Moulin!5e0!3m2!1sfr!2sfr!4v1580390047124!5m2!1sfr!2sfr" width="500" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        {% block additionnalJavascripts %}
+        <script type="application/ld+json">[{"@context":"http:\/\/schema.org","@type":"Organization","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr","sameAs":["https:\/\/twitter.com\/elevagedumoulin","https:\/\/www.facebook.com\/Élevage-du-moulin-de-Leuville-1671858406233284"]},{"@context":"http:\/\/schema.org","@type":"WebSite","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr"},{"@context":"http:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.elevagedumoulin.fr\/","name":"Accueil"}}]}]</script>
+        {% endblock %}
+
     </div>
 {% endblock %}

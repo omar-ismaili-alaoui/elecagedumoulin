@@ -31,28 +31,31 @@
         <div class="clear"></div>
             <header>
                 {% block header %}
-                    {{ render(controller('App\\Controller\\HeaderController::index')) }}
+                    {{ render(controller('App\\Controller\\HeaderController::index',{'route':app.request.attributes.get('_route'), 'group': app.request.attributes.get('group'), 'type': app.request.attributes.get('type')})) }}
                 {% endblock %}
             </header>
             {% block carousel %}{% endblock %}
             <div class="clear"></div>
-            {% block body %}
-                <div class="col-md-8 col-sm-12 col-xs-12">
-                    {% block leftContent %}{% endblock %}
-                    <div class="clear"></div>
-                </div>
-                <div class="col-md-4 col-sm-12 col-xs-12">
-                    {% block sidebar %}
-                        {{ render(controller('App\\Controller\\SidebarController:index')) }}
-                    {% endblock %}
-                    <div class="clear"></div>
-                </div>
-            {% endblock %}
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                {% block footer %}
-                    {{ render(controller('App\\Controller\\FooterController::index')) }}
+            <div class="container">
+                {% block body %}
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        {% block leftContent %}{% endblock %}
+                        <div class="clear"></div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        {% block sidebar %}
+                            {{ render(controller('App\\Controller\\SidebarController:index')) }}
+                        {% endblock %}
+                        <div class="clear"></div>
+                    </div>
                 {% endblock %}
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    {% block footer %}
+                        {{ render(controller('App\\Controller\\FooterController::index')) }}
+                    {% endblock %}
+                </div>
             </div>
+    {% block additionnalJavascripts %}{% endblock %}
     {% block javascripts %}
         <script async src="{{ assets_versionning('public/assets/js/app.js') }}"></script>
     {% endblock %}
