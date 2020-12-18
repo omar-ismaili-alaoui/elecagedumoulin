@@ -11,6 +11,7 @@ use App\Form\RaceType;
 use App\Repository\AnnonceRepository;
 use App\Repository\PrixRepository;
 use App\Repository\RaceRepository;
+use App\Services\TextUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\Types\Integer;
@@ -41,7 +42,8 @@ class AdminController extends AbstractController
         EntityManagerInterface $entityManager,
         RaceRepository $raceRepository,
         PrixRepository $prixRepository,
-        AnnonceRepository $annonceRepository
+        AnnonceRepository $annonceRepository,
+        TextUtils $textUtils
     ) {
         $this->paginator = $paginator;
         $this->translator = $translator;
@@ -50,6 +52,7 @@ class AdminController extends AbstractController
         $this->entityManager = $entityManager;
         $this->prixRepository = $prixRepository;
         $this->annonceRepository = $annonceRepository;
+        $this->textUtils = $textUtils;
     }
 
     /**
@@ -164,15 +167,23 @@ class AdminController extends AbstractController
     public function annonceAdd(Request $request): Response
     {
         $annonce = new Annonce();
+
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            /*$price->setPrix($request->get('prix')['prix']);
-            $price->setRace($this->raceRepository->find($request->get('prix')['race']));
-            $this->entityManager->persist($price);
-            $this->entityManager->flush();*/
-            return $this->redirectToRoute('admin_annonces');
+        if ($form->isSubmitted()){
+            if($form->isValid()){
+                $annoncesSameUrl = $this->annonceRepository->findBy(['url'=>$this->textUtils->slugify($annonce->getTitre())]);
+                if($annoncesSameUrl){
+                    $annonce->setUrl($this->textUtils->slugify($annonce->getTitre().'-'.(sizeof($annoncesSameUrl)+1)));
+                }else{
+                    $annonce->setUrl($this->textUtils->slugify($annonce->getTitre()));
+                }
+                $this->entityManager->persist($annonce);
+                $this->entityManager->flush();
+                return $this->redirectToRoute('admin_annonces');
+            }else{
+                dd($form->getErrors());
+            }
         }
         return $this->render('Admin/annonces/annonce-add.html.twig', [
             'form' => $form->createView(),

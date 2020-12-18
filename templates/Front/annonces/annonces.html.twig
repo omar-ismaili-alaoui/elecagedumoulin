@@ -2,6 +2,11 @@
 
 {% block title %}Accueil{% endblock %}
 
+{% block breadcrumb %}
+    <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
+    <li class="active">Annonces</li>
+{% endblock %}
+
 {% block body %}
     <!-- START THE FEATURETTES -->
 <div class="marketing text-center">
@@ -28,7 +33,6 @@
                     {{ annonce.content }}
                     {% include "Front/annonces/annonces-details.html.twig" with {"annonce": annonce} %}
                     <hr>
-                    <a href="{{ path('el_contact') }}" class="btn btn-success"><i class="glyphicon glyphicon-envelope"></i> Acheter ou reserver</a>
                 </p>
             </div>
             <div class="col-md-5{% if loop.index is divisible by 2 %} col-md-pull-7{% endif %}">
@@ -37,6 +41,7 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalImages-{{ loop.index }}">
                     <i class="glyphicon glyphicon-picture"></i> Agrandir les images
                 </button>
+                <a href="{{ path('el_contact') }}" class="btn btn-success"><i class="glyphicon glyphicon-envelope"></i> Acheter ou reserver</a>
 
                 <!-- Modal -->
                 <div class="modal fade" id="modalImages-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="modalImages-{{ loop.index }}-Label">

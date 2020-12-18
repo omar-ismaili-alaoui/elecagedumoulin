@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Annonce;
 use App\Entity\Race;
 use App\Entity\Sexe;
+use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -26,10 +27,14 @@ class AnnonceType extends AbstractType
                 'error_bubbling' => true,
                 'attr' => array('class' => 'form-control ')
             ))
-            ->add('datePublished', TextType::class,array(
-                'label' => 'Date de naissance',
+            ->add('datePublished', DateType::class,array(
+                'label' => 'Date de publication',
                 'required' => false,
                 'error_bubbling' => true,
+                'html5' => false,
+                'format' => 'dd/MM/yyyy',
+                'model_timezone' => 'Europe/Paris',
+                'widget' => 'single_text',
                 'attr' => array('class' => 'form-control datepicker')
             ))
             ->add('content',TextareaType::class,array(
@@ -78,22 +83,30 @@ class AnnonceType extends AbstractType
                 'error_bubbling' => true,
                 'attr' => array('class' => 'form-control')
             ))
-            ->add('dateNaissance', TextType::class,array(
+            ->add('dateNaissance', DateType::class,array(
                 'label' => 'Date de naissance',
                 'required' => false,
                 'error_bubbling' => true,
+                'html5' => false,
+                'format' => 'dd/MM/yyyy',
+                'model_timezone' => 'Europe/Paris',
+                'widget' => 'single_text',
                 'attr' => array('class' => 'form-control datepicker')
             ))
-            ->add('dateDispo', TextType::class,array(
+            ->add('dateDispo', DateType::class,array(
                 'label' => 'Date de disponibilité',
                 'required' => false,
                 'error_bubbling' => true,
+                'html5' => false,
+                'format' => 'dd/MM/yyyy',
+                'model_timezone' => 'Europe/Paris',
+                'widget' => 'single_text',
                 'attr' => array('class' => 'form-control datepicker')
             ))
             ->add('portee',NumberType::class,
             array(
                 'label' => 'Nombre dans la portée',
-                'required' => false,
+                'required' => true,
                 'error_bubbling' => true,
                 'attr' => array('class' => 'form-control')
             ))
@@ -122,6 +135,26 @@ class AnnonceType extends AbstractType
                     'error_bubbling' => true,
                     'attr' => array('class' => 'form-control')
                 ))
+            ->add('isPortee', ChoiceType::class,array(
+                'label' => 'Est ce une portée',
+                'required' => true,
+                'choices'  => [
+                    "Oui" => 1,
+                    "Non" => 0,
+                ],
+                'error_bubbling' => true,
+                'attr' => array('class' => 'form-control')
+            ))
+            ->add('active', ChoiceType::class,array(
+                'label' => 'Annonce active',
+                'required' => true,
+                'choices'  => [
+                    "Oui" => 1,
+                    "Non" => 0,
+                ],
+                'error_bubbling' => true,
+                'attr' => array('class' => 'form-control')
+            ))
         ;
     }
 

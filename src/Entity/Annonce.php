@@ -27,8 +27,7 @@ class Annonce
     private $titre;
 
     /**
-     * @ORM\Column(type="datetime")
-     * @Assert\Date(message="Format erroné")
+     * @ORM\Column(type="date")
      */
     private $datePublished;
 
@@ -83,7 +82,7 @@ class Annonce
     private $dateDispo;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $portee;
 
@@ -93,7 +92,7 @@ class Annonce
     private $certificat;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nbTatouage;
 

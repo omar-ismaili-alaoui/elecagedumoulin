@@ -33,14 +33,13 @@
                     {{ render(controller('App\\Controller\\HeaderController::index',{'route':app.request.attributes.get('_route'), 'group': app.request.attributes.get('group'), 'type': app.request.attributes.get('type')})) }}
                 {% endblock %}
             </header>
-            {% block breadcrumb %}
                 <div class="container">
-                <div class="breadcrumbs text-center">
-                    <span class="center-block"></span><span class="pathway">Accueil</span>
-                </div>
+                <ul class="breadcrumb text-center">
+                    {% block breadcrumb %}
+                        <li class="active">Accueil</li>
+                    {% endblock %}
+                </ul>
             </div>
-            {% endblock %}
-            <hr class="featurette-divider">
             {% block carousel %}{% endblock %}
             <div class="clear"></div>
             <div class="container">

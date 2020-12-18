@@ -2,6 +2,11 @@
 
 {% block title %}Accueil{% endblock %}
 
+{% block breadcrumb %}
+    <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
+    <li class="active">{{ races.titre }}</li>
+{% endblock %}
+
 {% block body %}
     <!-- Example row of columns -->
     <h1 class="center-block text-center">{{ races.titre }}</h1>
