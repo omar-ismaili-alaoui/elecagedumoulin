@@ -9,7 +9,7 @@
     <div class="form-group">
         {{ form_row(form.prix) }}
     </div>
-    <button type="submit" class="btn btn-success">Ajouter</button>
+    <button type="submit" class="btn btn-success">{% if state == 'new' %}Ajouter{% else %}Enregistrer{% endif %}</button>
     <a href="{{ path('admin_prix') }}" class="btn btn-primary">Retour</a>
     {{ form_end(form) }}
 {% endblock %}

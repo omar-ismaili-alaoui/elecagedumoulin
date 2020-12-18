@@ -45,7 +45,7 @@
                     <td>{{ annonce.loof | booleanBadge }}</td>
                     <td>{{ annonce.certificat | booleanBadge }}</td>
                     <td>
-                        {#<a href="{{ path('admin_prices_edit',{'id':prix.id }) }}" class="btn btn-success"><i class=""></i> Éditer</a>#}
+                        <a href="{{ path('admin_annonce_edit',{'id':annonce.id }) }}" class="btn btn-success"><i class=""></i> Éditer</a>
                     </td>
                 </tr>
             {% endfor %}

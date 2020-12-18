@@ -202,7 +202,7 @@
         "version": "v5.1.8"
     },
     "symfony/dotenv": {
-        "version": "v4.2.12"
+        "version": "v5.1.10"
     },
     "symfony/error-handler": {
         "version": "v5.1.8"

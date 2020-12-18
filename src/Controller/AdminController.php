@@ -163,10 +163,17 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/add-annonce", name="admin_annonce_add")
+     * @Route("/add-annonce/{id}", name="admin_annonce_edit")
      */
-    public function annonceAdd(Request $request): Response
+    public function annonceAdd(Request $request, $id = null): Response
     {
-        $annonce = new Annonce();
+        if($id) {
+            $annonce = $this->annonceRepository->find($id);
+            $state = "edit";
+        }else{
+            $annonce = new Annonce();
+            $state = "new";
+        }
 
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
@@ -187,6 +194,7 @@ class AdminController extends AbstractController
         }
         return $this->render('Admin/annonces/annonce-add.html.twig', [
             'form' => $form->createView(),
+            'state' => $state
         ]);
     }
 
@@ -214,10 +222,17 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/add-price", name="admin_prices_add")
+     * @Route("/edit-price/{id}", name="admin_prices_edit")
      */
-    public function pricesAdd(Request $request): Response
+    public function pricesAdd(Request $request,$id = null): Response
     {
-        $price = new Prix();
+        if($id){
+            $price = $this->prixRepository->find($id);
+            $state = "edit";
+        }else{
+            $price = new Prix();
+            $state = "new";
+        }
         $form = $this->createForm(PrixType::class, $price);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -229,28 +244,7 @@ class AdminController extends AbstractController
         }
         return $this->render('Admin/prix/prix-add.html.twig', [
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/edit-price/{id}", name="admin_prices_edit")
-     */
-    public function pricesEdit(Request $request, Prix $id): Response
-    {
-        $priceFound = $this->prixRepository->find($id);
-        if($priceFound != null){
-            $form = $this->createForm(PrixType::class, $priceFound);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $priceFound->setPrix($request->get('prix')['prix']);
-                $priceFound->setRace($this->raceRepository->find($request->get('prix')['race']));
-                $this->entityManager->persist($priceFound);
-                $this->entityManager->flush();
-                return $this->redirectToRoute('admin_prix');
-            }
-        }
-        return $this->render('Admin/prix/prix-edit.html.twig', [
-            'form' => $form->createView(),
+            'state' => $state
         ]);
     }
 }
