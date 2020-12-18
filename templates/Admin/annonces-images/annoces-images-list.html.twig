@@ -1,0 +1,36 @@
+
+    <h1 class="page-h<eader">Images</h1>
+    <hr>
+    <div class="col-md-12">
+        <a href="{{ path('admin_annonces_images_add') }}" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-plus"></i> Ajouter une image</a>
+    </div>
+    <hr>
+
+    <h2 class="sub-header">Liste des images</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Image</th>
+                <th>Principal</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for image in images %}
+                <tr>
+                    <td>{{ image.id }}</td>
+                    <td><img width="200" src="{{ asset(image.image) }}"/></td>
+                    <td>{{ image.principal | booleanBadge }}</td>
+                    <td>{{ image.active | badge }}</td>
+                    <td>
+                        <a href="{{ path('admin_annonces_images_edit',{'id':image.id }) }}" class="btn btn-success"><i class=""></i> Éditer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(images, null, {}, {'style': 'pager'}) }}
+    </div>

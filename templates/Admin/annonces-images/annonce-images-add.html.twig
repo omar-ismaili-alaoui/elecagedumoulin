@@ -126,15 +126,8 @@
 
     {{ form_end(form) }}
 
-    <div class="col-md-12"><br/><br/></div>
 
-    {% if state == 'edit' %}
-    <div class="row">
-        <div class="col-md-12">
-            {{ include('Admin/annonces-images/annoces-images-list.html.twig' , { 'images': images })}}
-        </div>
-    </div>
-    {% endif %}
+    <a href="{{ path('admin_annonces_images_add') }}" class="btn btn-primary">Ajouter des images</a>
 
 
 {% endblock %}

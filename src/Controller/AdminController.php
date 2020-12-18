@@ -8,6 +8,7 @@ use App\Entity\Race;
 use App\Form\AnnonceType;
 use App\Form\PrixType;
 use App\Form\RaceType;
+use App\Repository\AnnonceImageRepository;
 use App\Repository\AnnonceRepository;
 use App\Repository\PrixRepository;
 use App\Repository\RaceRepository;
@@ -43,6 +44,7 @@ class AdminController extends AbstractController
         RaceRepository $raceRepository,
         PrixRepository $prixRepository,
         AnnonceRepository $annonceRepository,
+        AnnonceImageRepository $annonceImageRepository,
         TextUtils $textUtils
     ) {
         $this->paginator = $paginator;
@@ -52,6 +54,7 @@ class AdminController extends AbstractController
         $this->entityManager = $entityManager;
         $this->prixRepository = $prixRepository;
         $this->annonceRepository = $annonceRepository;
+        $this->annonceImageRepository = $annonceImageRepository;
         $this->textUtils = $textUtils;
     }
 
@@ -192,10 +195,35 @@ class AdminController extends AbstractController
                 dd($form->getErrors());
             }
         }
+        if($state == 'edit'){
+            $images = $this->annonceImageRepository->findBy(['annonce'=>$annonce]);
+            $images = $this->paginator->paginate(
+                $images, /* query NOT result */
+                $request->query->getInt('page', 1)/*page number*/,
+                20/*limit per page*/
+            );
+        }else{
+            $images = null;
+        }
+        return $this->render('Admin/annonces/annonce-add.html.twig', [
+            'form' => $form->createView(),
+            'state' => $state,
+            'images' => $images
+        ]);
+    }
+
+    /**
+     * @Route("/add-annonce-images", name="admin_annonces_images_add")
+     * @Route("/add-annonce/images/{id}", name="admin_annonces_images_edit")
+     */
+    public function annonceImagesAdd(Request $request, $id = null): Response
+    {
+        exit();
+        /*
         return $this->render('Admin/annonces/annonce-add.html.twig', [
             'form' => $form->createView(),
             'state' => $state
-        ]);
+        ]);*/
     }
 
     /**
