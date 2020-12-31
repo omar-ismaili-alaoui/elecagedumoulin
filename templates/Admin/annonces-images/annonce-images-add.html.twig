@@ -1,116 +1,30 @@
 {% extends 'base-admin.html.twig' %}
-
+{% block jsTop %}<script src="{{ asset('js/jquery.min.js') }}"></script>{% endblock %}
 {% block body %}
-    <h1 class="page-h<eader">Ajouter une annonce</h1>
+    <h1 class="page-h<eader">Ajouter une image à l'annonce : {{ annonce.titre }}</h1>
+    <br/><br/>
     {{ form_start(form) }}
 
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                {{ form_row(form.titre) }}
+                <label class="userVille" for="userVille">Image souhaitée <small>(obligatoire)</small><span class="rose">*</span></label>
+                <div class="clear"></div>
+                <a data-toggle="modal" data-target="#add-picture" class="btn btn-success" id="photo">Charger l'image</a>
+                <br/><br/>
+                <img src="https://fakeimg.pl/640x320/" alt="Image du blog" id="annonceImage"/>
+                <input type="hidden" id="annonceImageValue" value="" name="annonceImage"/>
+                <div class="clear"></div>
             </div>
             <div class="form-group">
-                {{ form_row(form.content) }}
+                {{ form_row(form.principal) }}
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                {{ form_row(form.race) }}
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                {{ form_row(form.isPortee) }}
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                {{ form_row(form.portee) }}
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
                 {{ form_row(form.active) }}
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                {{ form_row(form.certificat) }}
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="annonce_datePublished">Date de Naissance</label>
-                <div class='input-group date' id='datetimepicker2'>
-                    {{ form_widget(form.dateNaissance) }}
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar">
-                        </span>
-                   </span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="annonce_datePublished">Date de disponibilité</label>
-                <div class='input-group date' id='datetimepicker3'>
-                    {{ form_widget(form.dateDispo) }}
-                    <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar">
-                    </span>
-               </span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="annonce_datePublished">Date de publication</label>
-                <div class='input-group date' id='datetimepicker1'>
-                    {{ form_widget(form.datePublished) }}
-                    <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar">
-                    </span>
-               </span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                {{ form_row(form.vermifuge) }}
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                {{ form_row(form.vaccined) }}
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                {{ form_row(form.loof) }}
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                {{ form_row(form.taouage) }}
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                {{ form_row(form.nbTatouage) }}
             </div>
         </div>
     </div>
@@ -126,8 +40,6 @@
 
     {{ form_end(form) }}
 
-
-    <a href="{{ path('admin_annonces_images_add') }}" class="btn btn-primary">Ajouter des images</a>
-
+    {% include 'Admin/annonces-images/uploader.html.twig'%}
 
 {% endblock %}

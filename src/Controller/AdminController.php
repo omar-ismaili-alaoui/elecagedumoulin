@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\AnnonceImage;
 use App\Entity\Prix;
 use App\Entity\Race;
+use App\Form\AnnonceImageType;
 use App\Form\AnnonceType;
 use App\Form\PrixType;
 use App\Form\RaceType;
@@ -15,6 +17,7 @@ use App\Repository\RaceRepository;
 use App\Services\TextUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use mysql_xdevapi\Exception;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +38,8 @@ class AdminController extends AbstractController
     private $session;
     private $router;
     private $entityManager;
+
+    private $cropperServices;
 
     public function __construct(
         PaginatorInterface $paginator,
@@ -208,22 +213,128 @@ class AdminController extends AbstractController
         return $this->render('Admin/annonces/annonce-add.html.twig', [
             'form' => $form->createView(),
             'state' => $state,
-            'images' => $images
+            'images' => $images,
+            'annonceUrl' => $annonce->getUrl()
         ]);
     }
 
     /**
-     * @Route("/add-annonce-images", name="admin_annonces_images_add")
-     * @Route("/add-annonce/images/{id}", name="admin_annonces_images_edit")
+     * @Route("/add-annonce/images/{url}", name="admin_annonces_images_add")
+     * @Route("/add-annonce/images/{id}/{url}", name="admin_annonces_images_edit")
      */
-    public function annonceImagesAdd(Request $request, $id = null): Response
+    public function annonceImagesAdd(Request $request, $id = null, $url = null): Response
     {
-        exit();
-        /*
-        return $this->render('Admin/annonces/annonce-add.html.twig', [
+        if($id) {
+            $image = $this->annonceImageRepository->find($id);
+            $state = "edit";
+        }else{
+            $image = new AnnonceImage();
+            $state = "new";
+        }
+        $annonce = $this->annonceRepository->findOneBy(['url'=>$url]);
+        if($annonce == null){
+            throw new Exception('No article founded');
+        }
+        $image->setAnnonce($annonce);
+        $form = $this->createForm(AnnonceImageType::class, $image);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $this->entityManager->persist($image);
+                $this->entityManager->flush();
+                return $this->redirectToRoute('admin_annonces_images_add',['url'=>$url]);
+            }
+        }
+        return $this->render('Admin/annonces-images/annonce-images-add.html.twig', [
             'form' => $form->createView(),
-            'state' => $state
-        ]);*/
+            'state' => $state,
+            'annonce' => $annonce
+        ]);
+    }
+
+    // CROPING BLOG BADGES
+    /**
+     * @Route("/default/uploadTempFile/{tempFolder}", name="upload_temp_file")
+     */
+    public function uploadTempFileAction($tempFolder){
+        $userId = $this->getUser()->getId();
+        $target_dir = realpath('uploads/'.$tempFolder.'/temp-files');
+        $target_file = $target_dir .'/'.$userId.'-'. basename($_FILES["fileBB"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+        $gen = $this->generateSecret('',8,'');
+        $target_file = substr($target_file,0,-4);
+        $target_file = str_replace(' ','-',$target_file);
+        $target_file = $target_file . '-' . $gen . '.' . $imageFileType;
+        $name = substr(basename($_FILES["fileBB"]["name"]),0,-4);
+        $name = str_replace(' ','-',$name);
+        // Check if image file is a actual image or fake image
+        if(isset($_POST)) {
+            $check = getimagesize($_FILES["fileBB"]["tmp_name"]);
+            if($check !== false) {
+                //echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
+        }
+        $imagedetails = getimagesize($_FILES['fileBB']['tmp_name']);
+
+        $width = $imagedetails[0];
+        $height = $imagedetails[1];
+        if (file_exists($target_file)) {
+            echo "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+            // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["fileBB"]["tmp_name"], $target_file)) {
+                //$this->imageCropping($target_file);
+                //echo "The file ". basename( $_FILES["fileBB"]["name"]). " has been uploaded.";
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+        if($imageFileType == "png" || $imageFileType == "PNG") {
+            $nameTwo = substr($target_file,0,-4);
+            $JPG = $this->png2jpg($target_file,$nameTwo.'.jpg',100);
+            echo '/'.$tempFolder.'/temp-files/'.$userId.'-'.$name.'-'.$gen.'.'.'jpg'.'***'.$width.'***'.$height;
+        }else{
+            echo '/'.$tempFolder.'/temp-files/'.$userId.'-'.$name.'-'.$gen.'.'.$imageFileType .'***'.$width.'***'.$height;
+        }
+        exit();
+    }
+
+    /**
+     * @Route("/default/cropFile", name="crop_file")
+     */
+    public function cropFileAction(Request $request){
+        $dateNow = (new \DateTime('NOW'))->getTimestamp();
+        $userId = $this->getUser()->getId();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+            $newFileName = $userId.'-'.$dateNow.'.jpg';
+            $srcFile = 'uploads/'.$_POST['folder'].'/' . $newFileName;
+            move_uploaded_file($_FILES['file']['tmp_name'], $srcFile);
+            list($width, $height) = getimagesize($srcFile);
+
+            echo ''.$_POST['folder'].'/640x'.((640*$height)/$width).'_art_'.$newFileName;
+            $this->createThumbImageFromOriginalImage($srcFile,640,((640*$height)/$width),$srcFile,$newFileName,'');
+        }
+        exit();
+    }
+
+    function createThumbImageFromOriginalImage($src,$newWidth,$newHeight,$realPath,$newFileName,$path){
+        list($width, $height) = getimagesize($src);
+        $thumb = imagecreatetruecolor($newWidth,$newHeight);
+        $source = imagecreatefromstring( file_get_contents( $realPath ) );
+        imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newWidth,$newHeight, $width, $height);
+        imagepng( $thumb,(realpath('uploads/'.$_POST['folder']).'/'.$path.'/'.$newWidth.'x'.$newHeight.'_art_'.$newFileName.''));
     }
 
     /**
@@ -275,4 +386,15 @@ class AdminController extends AbstractController
             'state' => $state
         ]);
     }
+
+    public function generateSecret($userId_,$length_,$salt_){
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length_; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString.$salt_.base64_encode($userId_);
+    }
+
 }

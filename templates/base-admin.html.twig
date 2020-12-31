@@ -9,6 +9,7 @@
         <meta name="theme-color" content="#ffffff">
         <title>Élevage du moulin - ADMIN - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="{{ assets_versionning_admin('app-admin.css') }}">
+        {% block jsTop %}{% endblock %}
     </head>
     <body cz-shortcut-listen="true">
         <header>
@@ -19,12 +20,16 @@
         <div class="clear"></div>
             <div class="container-fluid">
                 <div class="row">
+                    {% if app.user and 'ROLE_ADMIN' in app.user.roles  %}
                     <div class="col-sm-3 col-md-2 sidebar">
                         {% block leftBar %}
                             {{ render(controller('App\\Controller\\AdminController::leftbar',{'route':app.request.attributes.get('_route')})) }}
                         {% endblock %}
                     </div>
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    {% else %}
+                    <div class="col-sm-12 col-md-12 main">
+                    {% endif %}
                         {% block body %}
                             {#<div class="row placeholders">
                                 <div class="col-xs-6 col-sm-3 placeholder">

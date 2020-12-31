@@ -291,6 +291,7 @@ gulp.task('js_admin', function() {
             'node_modules/moment/locale/fr.js',
             'node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js',
 
+            'assets_admin/js/croppie.min.js',
             'assets_admin/js/all.js'
         ])
 

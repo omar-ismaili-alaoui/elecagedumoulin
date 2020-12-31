@@ -1,0 +1,147 @@
+<!-- Modal Share Mail-->
+<div class="modal fade" id="add-picture" tabindex="-1" role="dialog" aria-labelledby="add-pictureLabel">
+    <div class="modal-dialog" role="document" style="width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <p class="modal-title" id="add-pictureLabel">Image de blog</p>
+            </div>
+            <div class="modal-body">
+                <p class="modal-title rose" style="text-align: left;"><b>1.</b> Choisissez votre photo</p>
+                <div class="col-md-12">
+                    <form id="uploadTempBadgeFile" name="uploadTempBadgeFile" method="post" action="{{ path('upload_temp_file',{'tempFolder':'annonces'}) }}" enctype="multipart/form-data">
+                        <input type="file" name="fileBB" id="fileBB" class="fileBB"/>
+                        <a class="spinner" style="margin: 0 auto;display: none;"><img src="{{ asset('/images') }}/spinner.gif"></a>
+                    </form>
+                    <div class="clear"><br/></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="alert alert-danger alert-dismissible" id="less-width" role="alert"></div>
+                    <div class="clear"></div>
+                </div>
+                <p class="modal-title rose" style="text-align: left;"><b>2.</b> Vous devez impérativement recadrer votre photo en la faisant glisser dans le cadre, zoomer avec la molette de la souris ou bien la barre de zoom&nbsp;!</p>
+                <div class="clear"></div>
+                <p class="modal-title rose" style="text-align: left;"><br/><b>3.</b> Enregistrer votre photo avec le bouton Valider</p>
+                <div class="col-md-12" style="text-align: center;" id="widthAll">
+                    <div class="cropbox-img">
+                        <img src="" id="cropbox" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="rotate-actions">
+                    <button class="vanilla-rotate btn" data-deg="-90"><i class="glyphicon glyphicon-arrow-left"></i></button>
+                    <button class="vanilla-rotate btn" data-deg="90"><i class="glyphicon glyphicon-arrow-right"></i></button>
+                    <button class="vanilla-result btn btn-success"><i class="glyphicon glyphicon-ok"></i></button>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="pull-left btn btn-default" data-dismiss="modal">Fermer</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+
+        $("form#uploadTempBadgeFile").change(function(){
+            $('.spinner').show();
+            $("#widthAll").append('<div><img style="position: fixed;left: 0;right: 0;background: #FFFFFF;z-index: 999999999;width: 100%;" id="loading-bouille" class="img-rounded" src="{{ asset('/images') }}/loading.gif" /></div>');
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: $("form#uploadTempBadgeFile").attr("action"),
+                type: 'POST',
+                data: formData,
+                async: false,
+                success: function (data) {
+                    var dataTab = data.split("***");
+                    if(parseInt(dataTab[1]) < '300'){
+                        $('#less-width').addClass('alert-danger');
+                        $('#less-width').removeClass('alert-success');
+                        $('#less-width').html('<button type="button" style="right: -10px;" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Votre image a une largeur de '+dataTab[1]+', alors que la largeur optimale est de minimum 300px ');
+                        $('#less-width').show('200');
+                        var minwidth = parseInt(dataTab[1]);
+                    }else{
+                        $('#less-width').removeClass('alert-danger');
+                        $('#less-width').addClass('alert-success');
+                        $('#less-width').html('<button type="button" style="right: -10px;" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Votre image a une largeur optimale au-dessus de 300px ');
+                        $('#less-width').show('200');
+                        var minwidth = 300;
+                    }
+                    $('#cropbox').attr('src','{{ asset('/uploads') }}'+ dataTab[0]);
+                    $('.spinner').hide();
+                    $('#widthAll').html('<img src="{{ asset('/uploads') }}'+ dataTab[0]+'" id="cropbox" />');
+
+                    cropVanilla('cropbox','{{ asset('/uploads') }}'+ dataTab[0]+'');
+                    $('.rotate-actions').css('display','block');
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+            return false;
+        });
+
+        function cropVanilla(id,imageCrop) {
+            var vEl = document.getElementById(id),
+                vanilla = new Croppie(vEl, {
+                    viewport: { width: 640, height: 320, type: 'square' },
+                    boundary: { width: 700, height: 400 },
+                    showZoomer: true,
+                    enableOrientation: true
+                });
+            vanilla.bind({
+                url: imageCrop,
+                zoom: 0
+            });
+            vEl.addEventListener('update', function (ev) {
+                console.log('vanilla update', ev);
+            });
+            document.querySelector('.vanilla-result').addEventListener('click', function (ev) {
+                vanilla.result({
+                    type: 'blob'
+                }).then(function (blob) {
+                    if($(''))
+                        sendImageData(blob);
+                });
+            });
+            $('.vanilla-rotate').on('click', function(ev) {
+                vanilla.rotate(parseInt($(this).data('deg')));
+            });
+        }
+        function sendImageData(blob) {
+            var fd = new FormData();
+            fd.append('fname', 'image.jpg');
+            fd.append('folder', 'annonces');
+            fd.append('userId', '{{ app.user.id }}');
+            fd.append('file', blob);
+            $.ajax({
+                type: 'POST',
+                url: '{{ path("crop_file") }}',
+                data: fd,
+                processData: false,
+                contentType: false,
+                done: function(data){
+                    var dataTab = data.split("/");
+                    var src = '{{ asset('/uploads/') }}' + data;
+                    console.log(dataTab);
+                    $('#annonceImage').attr('src',src);
+                    $('#annonceImageValue').val(dataTab[1]);
+                    $('#annonce_image_image').val(dataTab[1]);
+                    $('button.close').click();
+                },
+                success: function(data){
+                    var dataTab = data.split("/");
+                    var src = '{{ asset('/uploads/') }}' + data;
+                    console.log(dataTab);
+                    $('#annonceImage').attr('src',src);
+                    $('#annonceImageValue').val(dataTab[1]);
+                    $('#annonce_image_image').val(dataTab[1]);
+                    $('button.close').click();
+                }
+            })
+        }
+
+    });
+</script>

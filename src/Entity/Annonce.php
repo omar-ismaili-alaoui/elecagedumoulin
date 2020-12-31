@@ -337,4 +337,10 @@ class Annonce
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->titre;
+        // TODO: Implement __toString() method.
+    }
 }

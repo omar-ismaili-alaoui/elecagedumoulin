@@ -2,7 +2,7 @@
     <h1 class="page-h<eader">Images</h1>
     <hr>
     <div class="col-md-12">
-        <a href="{{ path('admin_annonces_images_add') }}" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-plus"></i> Ajouter une image</a>
+        <a href="{{ path('admin_annonces_images_add',{'url':annonceUrl}) }}" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-plus"></i> Ajouter une image</a>
     </div>
     <hr>
 
@@ -22,7 +22,7 @@
             {% for image in images %}
                 <tr>
                     <td>{{ image.id }}</td>
-                    <td><img width="200" src="{{ asset(image.image) }}"/></td>
+                    <td><img width="200" src="{{ asset('uploads/annonces/'~image.image) }}"/></td>
                     <td>{{ image.principal | booleanBadge }}</td>
                     <td>{{ image.active | badge }}</td>
                     <td>
