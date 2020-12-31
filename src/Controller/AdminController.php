@@ -17,9 +17,9 @@ use App\Repository\RaceRepository;
 use App\Services\TextUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use mysql_xdevapi\Exception;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -243,12 +243,13 @@ class AdminController extends AbstractController
             if ($form->isValid()) {
                 $this->entityManager->persist($image);
                 $this->entityManager->flush();
-                return $this->redirectToRoute('admin_annonces_images_add',['url'=>$url]);
+                return $this->redirectToRoute('admin_annonce_edit',['id'=>$annonce->getId()]);
             }
         }
         return $this->render('Admin/annonces-images/annonce-images-add.html.twig', [
             'form' => $form->createView(),
             'state' => $state,
+            'imageUrl' => $image->getImage(),
             'annonce' => $annonce
         ]);
     }

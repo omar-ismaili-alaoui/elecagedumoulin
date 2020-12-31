@@ -263,7 +263,7 @@ gulp.task('js', function() {
 gulp.task('js_admin', function() {
     return gulp.src(
         [
-            'node_modules/jquery/dist/jquery.js',
+            //'node_modules/jquery/dist/jquery.js',
 
             //bootstrap
             'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js',

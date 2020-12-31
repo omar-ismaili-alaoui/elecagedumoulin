@@ -1,7 +1,7 @@
 {% extends 'base-admin.html.twig' %}
 {% block jsTop %}<script src="{{ asset('js/jquery.min.js') }}"></script>{% endblock %}
 {% block body %}
-    <h1 class="page-h<eader">Ajouter une image à l'annonce : {{ annonce.titre }}</h1>
+    <h1 class="page-h<eader">{% if state == 'edit' %}Modifier{% else %}Ajouter{% endif %} une image à l'annonce : {{ annonce.titre }}</h1>
     <br/><br/>
     {{ form_start(form) }}
 
@@ -12,7 +12,11 @@
                 <div class="clear"></div>
                 <a data-toggle="modal" data-target="#add-picture" class="btn btn-success" id="photo">Charger l'image</a>
                 <br/><br/>
-                <img src="https://fakeimg.pl/640x320/" alt="Image du blog" id="annonceImage"/>
+                {% if state == 'edit' %}
+                    <img src="{{ asset('uploads/annonces/'~imageUrl) }}" alt="Image du blog" id="annonceImage"/>
+                {% else %}
+                    <img src="https://fakeimg.pl/640x320/" alt="Image du blog" id="annonceImage"/>
+                {% endif %}
                 <input type="hidden" id="annonceImageValue" value="" name="annonceImage"/>
                 <div class="clear"></div>
             </div>
