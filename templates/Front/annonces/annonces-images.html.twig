@@ -11,7 +11,11 @@
 
         {% for image in annonce.annonceImages %}
         <div class="item {% if loop.index == 1 %}active{% endif %}">
-            <img src="{{ asset(image.image) }}" alt="{{ asset(image.image) }}">
+            {% if 'https://' in image.image %}
+                <img src="{{ asset(image.image) }}" alt="{{ asset(image.image) }}">
+            {% else %}
+                <img src="{{ asset('/uploads/annonces/'~image.image) }}" alt="{{ asset('/uploads/annonces/'~image.image) }}">
+            {% endif %}
         </div>
         {% endfor %}
     </div>
