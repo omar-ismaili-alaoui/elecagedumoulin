@@ -4,14 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Annonce;
 use App\Entity\AnnonceImage;
+use App\Entity\Comments;
 use App\Entity\Prix;
 use App\Entity\Race;
 use App\Form\AnnonceImageType;
 use App\Form\AnnonceType;
+use App\Form\CommentsType;
 use App\Form\PrixType;
 use App\Form\RaceType;
 use App\Repository\AnnonceImageRepository;
 use App\Repository\AnnonceRepository;
+use App\Repository\CommentsRepository;
 use App\Repository\PrixRepository;
 use App\Repository\RaceRepository;
 use App\Services\TextUtils;
@@ -39,8 +42,12 @@ class AdminController extends AbstractController
     private $session;
     private $router;
     private $entityManager;
-
-    private $cropperServices;
+    private $uploader;
+    private $raceRepository;
+    private $prixRepository;
+    private $annonceRepository;
+    private $annonceImageRepository;
+    private $commentsRepository;
 
     public function __construct(
         PaginatorInterface $paginator,
@@ -51,6 +58,7 @@ class AdminController extends AbstractController
         PrixRepository $prixRepository,
         AnnonceRepository $annonceRepository,
         AnnonceImageRepository $annonceImageRepository,
+        CommentsRepository $commentsRepository,
         TextUtils $textUtils,
         Uploader $uploader
     ) {
@@ -64,6 +72,7 @@ class AdminController extends AbstractController
         $this->annonceImageRepository = $annonceImageRepository;
         $this->textUtils = $textUtils;
         $this->uploader = $uploader;
+        $this->commentsRepository = $commentsRepository;
     }
 
     /**
@@ -174,7 +183,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/add-annonce", name="admin_annonce_add")
-     * @Route("/add-annonce/{id}", name="admin_annonce_edit")
+     * @Route("/edit-annonce/{id}", name="admin_annonce_edit")
      */
     public function annonceAdd(Request $request, $id = null): Response
     {
@@ -223,7 +232,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/add-annonce/images/{url}", name="admin_annonces_images_add")
-     * @Route("/add-annonce/images/{id}/{url}", name="admin_annonces_images_edit")
+     * @Route("/edit-annonce/images/{id}/{url}", name="admin_annonces_images_edit")
      */
     public function annonceImagesAdd(Request $request, $id = null, $url = null): Response
     {
@@ -272,7 +281,6 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_annonce_edit',['id'=>$annonce->getId()]);
     }
 
-    // CROPING BLOG BADGES
     /**
      * @Route("/default/uploadTempFile/{tempFolder}", name="upload_temp_file")
      */
@@ -296,11 +304,33 @@ class AdminController extends AbstractController
     /**
      * @Route("/commentaires", name="admin_commentaires")
      */
-    public function commentaire(): Response
+    public function commentaire(Request $request): Response
     {
-        $allRaces = $this->raceRepository->findAll();
-        return $this->render('Admin/prix/prix-list.html.twig', [
-            'allRaces' => $allRaces,
+        $allComments = $this->commentsRepository->findAll();
+        $allComments = $this->paginator->paginate(
+            $allComments,
+            $request->query->getInt('page', 1),
+            10
+        );
+        return $this->render('Admin/comments/comments-list.html.twig', [
+            'allComments' => $allComments,
+        ]);
+    }
+    /**
+     * @Route("/edit-comment/{id}", name="admin_comment_edit")
+     */
+    public function commentsEdit(Request $request,$id = null): Response
+    {
+        $comment = $this->commentsRepository->find($id);
+        $form = $this->createForm(CommentsType::class, $comment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('admin_commentaires');
+        }
+        return $this->render('Admin/comments/comment-edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

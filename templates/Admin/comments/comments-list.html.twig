@@ -1,0 +1,47 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block body %}
+    <h1 class="page-h<eader">Commentaires</h1>
+    <hr>
+
+    <h2 class="sub-header">Liste des commentaires</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Titre</th>
+                <th>publié</th>
+                <th>vécu</th>
+                <th>Sujet</th>
+                <th>Ville</th>
+                <th>pseudo</th>
+                <th>Comment</th>
+                <th>Note</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for comment in allComments %}
+                <tr>
+                    <td>{{ comment.id }}</td>
+                    <td>{{ comment.titre }}</td>
+                    <td>{{ comment.published | date('d-m-Y')  }}</td>
+                    <td>{{ comment.lived | date('d-m-Y') }}</td>
+                    <td>{{ comment.subject }}</td>
+                    <td>{{ comment.ville }}</td>
+                    <td>{{ comment.pseudo }}</td>
+                    <td>{{ comment.comment | truncate(10) }}</td>
+                    <td>{{ comment.rating }}/5</td>
+                    <td>{{ comment.active | booleanBadge }}</td>
+                    <td>
+                        <a href="{{ path('admin_comment_edit',{'id':comment.id }) }}" class="btn btn-success"><i class=""></i> Éditer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {{ knp_pagination_render(allComments, null, {}, {'style': 'pager'}) }}
+    </div>
+{% endblock %}

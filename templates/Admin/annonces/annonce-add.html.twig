@@ -1,7 +1,7 @@
 {% extends 'base-admin.html.twig' %}
 
 {% block body %}
-    <h1 class="page-h<eader">Ajouter une annonce</h1>
+    <h1 class="page-h<eader">{% if state == 'new' %}Ajouter{% else %}Modifier{% endif %} une annonce</h1>
     {{ form_start(form) }}
 
     <div class="row">
