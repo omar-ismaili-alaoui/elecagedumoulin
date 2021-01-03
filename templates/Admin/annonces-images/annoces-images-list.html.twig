@@ -27,6 +27,7 @@
                     <td>{{ image.active | badge }}</td>
                     <td>
                         <a href="{{ path('admin_annonces_images_edit',{'id':image.id, 'url':annonceUrl }) }}" class="btn btn-success"><i class=""></i> Éditer</a>
+                        <a href="{{ path('admin_annonces_images_delete',{'id':image.id, 'url':annonceUrl }) }}" class="btn btn-danger"><i class=""></i> Supprimer</a>
                     </td>
                 </tr>
             {% endfor %}

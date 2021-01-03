@@ -125,7 +125,6 @@
                 done: function(data){
                     var dataTab = data.split("/");
                     var src = '{{ asset('/uploads/') }}' + data;
-                    console.log(dataTab);
                     $('#annonceImage').attr('src',src);
                     $('#annonceImageValue').val(dataTab[1]);
                     $('#annonce_image_image').val(dataTab[1]);
@@ -134,7 +133,6 @@
                 success: function(data){
                     var dataTab = data.split("/");
                     var src = '{{ asset('/uploads/') }}' + data;
-                    console.log(dataTab);
                     $('#annonceImage').attr('src',src);
                     $('#annonceImageValue').val(dataTab[1]);
                     $('#annonce_image_image').val(dataTab[1]);

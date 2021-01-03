@@ -8,7 +8,6 @@
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
-
         {% for image in annonce.annonceImages %}
         <div class="item {% if loop.index == 1 %}active{% endif %}">
             {% if 'https://' in image.image %}

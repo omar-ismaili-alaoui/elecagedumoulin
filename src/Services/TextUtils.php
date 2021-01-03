@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Normalizer;
-
 class TextUtils {
 
         public function slugify($str)

@@ -15,6 +15,7 @@ use App\Repository\AnnonceRepository;
 use App\Repository\PrixRepository;
 use App\Repository\RaceRepository;
 use App\Services\TextUtils;
+use App\Services\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\Types\Integer;
@@ -50,7 +51,8 @@ class AdminController extends AbstractController
         PrixRepository $prixRepository,
         AnnonceRepository $annonceRepository,
         AnnonceImageRepository $annonceImageRepository,
-        TextUtils $textUtils
+        TextUtils $textUtils,
+        Uploader $uploader
     ) {
         $this->paginator = $paginator;
         $this->translator = $translator;
@@ -61,6 +63,7 @@ class AdminController extends AbstractController
         $this->annonceRepository = $annonceRepository;
         $this->annonceImageRepository = $annonceImageRepository;
         $this->textUtils = $textUtils;
+        $this->uploader = $uploader;
     }
 
     /**
@@ -254,88 +257,36 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/add-annonce/images/delete/{id}/{url}", name="admin_annonces_images_delete")
+     */
+    public function annonceImagesDeleteAdd(Request $request, $id = null, $url = null): Response
+    {
+        $annonce = $this->annonceRepository->findOneBy(['url'=>$url]);
+        $image = $this->annonceImageRepository->find($id);
+        $this->entityManager->remove($image);
+        $this->entityManager->flush();
+
+        $srcFile = 'uploads/annonces/' . $image->getImage();
+        unlink($srcFile);
+        return $this->redirectToRoute('admin_annonce_edit',['id'=>$annonce->getId()]);
+    }
+
     // CROPING BLOG BADGES
     /**
      * @Route("/default/uploadTempFile/{tempFolder}", name="upload_temp_file")
      */
     public function uploadTempFileAction($tempFolder){
-        $userId = $this->getUser()->getId();
-        $target_dir = realpath('uploads/'.$tempFolder.'/temp-files');
-        $target_file = $target_dir .'/'.$userId.'-'. basename($_FILES["fileBB"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-        $gen = $this->generateSecret('',8,'');
-        $target_file = substr($target_file,0,-4);
-        $target_file = str_replace(' ','-',$target_file);
-        $target_file = $target_file . '-' . $gen . '.' . $imageFileType;
-        $name = substr(basename($_FILES["fileBB"]["name"]),0,-4);
-        $name = str_replace(' ','-',$name);
-        // Check if image file is a actual image or fake image
-        if(isset($_POST)) {
-            $check = getimagesize($_FILES["fileBB"]["tmp_name"]);
-            if($check !== false) {
-                //echo "File is an image - " . $check["mime"] . ".";
-                $uploadOk = 1;
-            } else {
-                echo "File is not an image.";
-                $uploadOk = 0;
-            }
-        }
-        $imagedetails = getimagesize($_FILES['fileBB']['tmp_name']);
-
-        $width = $imagedetails[0];
-        $height = $imagedetails[1];
-        if (file_exists($target_file)) {
-            echo "Sorry, file already exists.";
-            $uploadOk = 0;
-        }
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            echo "Sorry, your file was not uploaded.";
-            // if everything is ok, try to upload file
-        } else {
-            if (move_uploaded_file($_FILES["fileBB"]["tmp_name"], $target_file)) {
-                //$this->imageCropping($target_file);
-                //echo "The file ". basename( $_FILES["fileBB"]["name"]). " has been uploaded.";
-            } else {
-                echo "Sorry, there was an error uploading your file.";
-            }
-        }
-        if($imageFileType == "png" || $imageFileType == "PNG") {
-            $nameTwo = substr($target_file,0,-4);
-            $JPG = $this->png2jpg($target_file,$nameTwo.'.jpg',100);
-            echo '/'.$tempFolder.'/temp-files/'.$userId.'-'.$name.'-'.$gen.'.'.'jpg'.'***'.$width.'***'.$height;
-        }else{
-            echo '/'.$tempFolder.'/temp-files/'.$userId.'-'.$name.'-'.$gen.'.'.$imageFileType .'***'.$width.'***'.$height;
-        }
-        exit();
+        echo $this->uploader->uploadTempFile($tempFolder, $this->getUser()->getId());
+        die();
     }
 
     /**
      * @Route("/default/cropFile", name="crop_file")
      */
     public function cropFileAction(Request $request){
-        $dateNow = (new \DateTime('NOW'))->getTimestamp();
-        $userId = $this->getUser()->getId();
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-            $newFileName = $userId.'-'.$dateNow.'.jpg';
-            $srcFile = 'uploads/'.$_POST['folder'].'/' . $newFileName;
-            move_uploaded_file($_FILES['file']['tmp_name'], $srcFile);
-            list($width, $height) = getimagesize($srcFile);
-
-            echo ''.$_POST['folder'].'/640x'.((640*$height)/$width).'_art_'.$newFileName;
-            $this->createThumbImageFromOriginalImage($srcFile,640,((640*$height)/$width),$srcFile,$newFileName,'');
-        }
-        exit();
-    }
-
-    function createThumbImageFromOriginalImage($src,$newWidth,$newHeight,$realPath,$newFileName,$path){
-        list($width, $height) = getimagesize($src);
-        $thumb = imagecreatetruecolor($newWidth,$newHeight);
-        $source = imagecreatefromstring( file_get_contents( $realPath ) );
-        imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newWidth,$newHeight, $width, $height);
-        imagepng( $thumb,(realpath('uploads/'.$_POST['folder']).'/'.$path.'/'.$newWidth.'x'.$newHeight.'_art_'.$newFileName.''));
+        echo $this->uploader->cropFile($request, $this->getUser()->getId());
+        die();
     }
 
     /**
@@ -388,14 +339,5 @@ class AdminController extends AbstractController
         ]);
     }
 
-    public function generateSecret($userId_,$length_,$salt_){
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length_; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString.$salt_.base64_encode($userId_);
-    }
 
 }
