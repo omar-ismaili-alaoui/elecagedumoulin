@@ -306,7 +306,7 @@ class AdminController extends AbstractController
      */
     public function commentaire(Request $request): Response
     {
-        $allComments = $this->commentsRepository->findAll();
+        $allComments = $this->commentsRepository->findBy([],['id'=>'DESC']);
         $allComments = $this->paginator->paginate(
             $allComments,
             $request->query->getInt('page', 1),
