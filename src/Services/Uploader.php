@@ -8,11 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Uploader {
 
-    public function removeFile($tempFolder, $userId){
-        $target_dir = realpath('uploads/'.$tempFolder.'/temp-files');
-        unlink('test.html');
-    }
-
     public function uploadTempFile($tempFolder, $userId){
         $target_dir = realpath('uploads/'.$tempFolder.'/temp-files');
         $target_file = $target_dir .'/'.$userId.'-'. basename($_FILES["fileBB"]["name"]);

@@ -277,16 +277,20 @@ class AdminController extends AbstractController
      * @Route("/default/uploadTempFile/{tempFolder}", name="upload_temp_file")
      */
     public function uploadTempFileAction($tempFolder){
-        echo $this->uploader->uploadTempFile($tempFolder, $this->getUser()->getId());
-        die();
+        $string = $this->uploader->uploadTempFile($tempFolder, $this->getUser()->getId());
+        return $this->render('Admin/string.html.twig', [
+            'string' => $string,
+        ]);
     }
 
     /**
      * @Route("/default/cropFile", name="crop_file")
      */
     public function cropFileAction(Request $request){
-        echo $this->uploader->cropFile($request, $this->getUser()->getId());
-        die();
+        $string = $this->uploader->cropFile($request, $this->getUser()->getId());
+        return $this->render('Admin/string.html.twig', [
+            'string' => $string,
+        ]);
     }
 
     /**
