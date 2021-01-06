@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Prix{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
+    <li class="active">Les prix</li>
+{% endblock %}
 
 {% block body %}
     <!-- Example row of columns -->
@@ -35,7 +40,9 @@
                     <ul class="list-group">
                         {% for price in groupPrice.race %}
                             <li class="list-group-item">
-                                <span class="badge">{{ render(controller('App\\Controller\\DefaultController::getPrice',{'race':price})) }}</span>
+                                {% for race in price.prixes %}
+                                    <span class="badge">{{ race.prix }}</span>
+                                {% endfor %}
                                 <b>{{ price.titre }}</b> - <span class="label label-info">{{ price.sexe }}</span> - <span class="label label-primary">{{ price.couleur }}</span>
                             </li>
                         {% endfor %}
@@ -54,7 +61,9 @@
                     <ul class="list-group">
                         {% for price in groupPrice.race %}
                         <li class="list-group-item">
-                            <span class="badge">{{ render(controller('App\\Controller\\DefaultController::getPrice',{'race':price})) }}</span>
+                            {% for race in price.prixes %}
+                            <span class="badge">{{ race.prix }}</span>
+                            {% endfor %}
                             <b>{{ price.titre }}</b> - <span class="label label-info">{{ price.sexe }}</span> - <span class="label label-primary">{{ price.couleur }}</span>
                         </li>
                         {% endfor %}

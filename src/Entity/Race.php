@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RaceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class Race
      * @ORM\ManyToOne(targetEntity=RaceGroup::class, inversedBy="race")
      */
     private $raceGroup;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Prix::class, mappedBy="race")
+     */
+    private $prixes;
+
+    public function __construct()
+    {
+        $this->prixes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -108,6 +120,36 @@ class Race
     public function setRaceGroup(?RaceGroup $raceGroup): self
     {
         $this->raceGroup = $raceGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Prix[]
+     */
+    public function getPrixes(): Collection
+    {
+        return $this->prixes;
+    }
+
+    public function addPrix(Prix $prix): self
+    {
+        if (!$this->prixes->contains($prix)) {
+            $this->prixes[] = $prix;
+            $prix->setRace($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrix(Prix $prix): self
+    {
+        if ($this->prixes->removeElement($prix)) {
+            // set the owning side to null (unless already changed)
+            if ($prix->getRace() === $this) {
+                $prix->setRace(null);
+            }
+        }
 
         return $this;
     }

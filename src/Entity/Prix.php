@@ -23,7 +23,7 @@ class Prix
     private $prix;
 
     /**
-     * @ORM\OneToOne(targetEntity=Race::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Race::class, inversedBy="prixes")
      */
     private $race;
 

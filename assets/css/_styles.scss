@@ -92,9 +92,6 @@ p.lead{
   width: auto;
 }
 
-.modal-dialog.modal-bigger{
-  width: 672px;
-}
 .navbar-inverse .navbar-toggle .icon-bar{
   background-color: #0a0a0a;
 }
@@ -194,4 +191,17 @@ p.lead{
   .featurette-heading {
     margin-top: 10px;
   }
+}
+
+.carousel-caption h3{
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.carousel-inner>.item>a>img,.carousel-inner>.item>img{
+  width: 100%;
+}
+
+.modal-dialog.modal-bigger{
+  width: 100%;
 }

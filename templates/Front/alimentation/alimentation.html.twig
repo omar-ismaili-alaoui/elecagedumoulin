@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Alimentation{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
+    <li class="active">Alimentation</li>
+{% endblock %}
 
 {% block body %}
 

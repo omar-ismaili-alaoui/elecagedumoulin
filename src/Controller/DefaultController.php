@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
@@ -60,6 +61,9 @@ class DefaultController extends AbstractController
     public function racesGroup($group): Response
     {
         $races = $this->groupRepository->find($group);
+        if($races === null ){
+            throw new Exception('Race not found');
+        }
         return $this->render('Front/races/race-group.html.twig', [
             'races' => $races,
         ]);
@@ -113,15 +117,6 @@ class DefaultController extends AbstractController
         $groupPrices = $this->groupRepository->findAll();
         return $this->render('Front/prix/prix.html.twig', [
             'groupPrices' => $groupPrices,
-        ]);
-    }
-
-    public function getPrice(Race $race): Response
-    {
-        $price = $this->prixRepository->findOneBy(['race'=>$race]);
-        if($price ==  null ) exit();
-        return $this->render('Front/prix/only-prix.html.twig', [
-            'price' => $price,
         ]);
     }
 

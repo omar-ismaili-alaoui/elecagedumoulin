@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Pension pour chiens{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
+    <li class="active">Pension pour chiens</li>
+{% endblock %}
 
 {% block carousel %}
     <!-- Example row of columns -->
