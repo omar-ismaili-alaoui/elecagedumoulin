@@ -40,7 +40,7 @@ body {
 }
 
 .page-title{
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 footer li{
@@ -126,7 +126,7 @@ p.lead{
 ------------------------- */
 
 .featurette-divider {
-  margin: 40px 0; /* Space out the Bootstrap <hr> more */
+  margin: 20px 0; /* Space out the Bootstrap <hr> more */
   border-top: 1px solid #1b9448;
 }
 
@@ -204,4 +204,20 @@ p.lead{
 
 .modal-dialog.modal-bigger{
   width: 100%;
+}
+
+.img-user{
+  padding: 15px;
+  background: #FFFFFF;
+  border: 1px solid #5a5a5a;
+  border-radius: 50%;
+  font-size: 50px;
+}
+
+.no-margin-top{
+  margin-top: 0;
+}
+
+.label-primary {
+  background-color: #1b9448;
 }

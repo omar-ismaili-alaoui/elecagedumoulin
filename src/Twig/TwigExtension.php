@@ -12,7 +12,8 @@ class TwigExtension extends AbstractExtension
     {
         return array(
             new TwigFilter('badge', [ $this, 'badgeFunction' ], ['is_safe' => ['html']]),
-            new TwigFilter('booleanBadge', [ $this, 'booleanFunction' ], ['is_safe' => ['html']])
+            new TwigFilter('booleanBadge', [ $this, 'booleanFunction' ], ['is_safe' => ['html']]),
+            new TwigFilter('rating', [ $this, 'rating' ], ['is_safe' => ['html']])
         );
     }
 
@@ -38,8 +39,20 @@ class TwigExtension extends AbstractExtension
         return $text;
     }
 
+    public function rating($rating){
+
+        $stars = '';
+        for($i=1;$i<=5;$i++){
+            if($i<=$rating) $checked = 'checked';
+            $stars .= '<span class="fa fa-star '.$checked.'"></span>';
+        }
+        return $stars;
+
+    }
+
     public function getName()
     {
         return 'badge_extension';
     }
+
 }

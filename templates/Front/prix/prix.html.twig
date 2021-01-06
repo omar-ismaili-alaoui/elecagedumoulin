@@ -28,14 +28,12 @@
         </div><!-- /.row -->
 
 
-        <!-- START THE FEATURETTES -->
-
         <hr class="featurette-divider">
         {% for groupPrice in groupPrices %}
             {% if loop.index is divisible by 2 %}
             <div class="row featurette" id="{{ groupPrice.titre }}">
                 <div class="col-md-7">
-                    <h2 class="featurette-heading">{{ groupPrice.titre }}</h2>
+                    <h3 class="featurette-heading">{{ groupPrice.titre }}</h3>
                     <p class="lead">
                     <ul class="list-group">
                         {% for price in groupPrice.race %}
@@ -56,13 +54,13 @@
             {% else %}
             <div class="row featurette" id="{{ groupPrice.titre }}">
                 <div class="col-md-7 col-md-push-5">
-                    <h2 class="featurette-heading">{{ groupPrice.titre }}</h2>
+                    <h3 class="featurette-heading">{{ groupPrice.titre }}</h3>
                     <p class="lead">
                     <ul class="list-group">
                         {% for price in groupPrice.race %}
                         <li class="list-group-item">
                             {% for race in price.prixes %}
-                            <span class="badge">{{ race.prix }}</span>
+                                <span class="badge">{{ race.prix }}</span>
                             {% endfor %}
                             <b>{{ price.titre }}</b> - <span class="label label-info">{{ price.sexe }}</span> - <span class="label label-primary">{{ price.couleur }}</span>
                         </li>

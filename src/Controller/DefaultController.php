@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Prix;
 use App\Entity\Race;
 use App\Repository\AnnonceRepository;
+use App\Repository\CommentsRepository;
 use App\Repository\PrixRepository;
 use App\Repository\RaceGroupRepository;
 use App\Repository\RaceRepository;
@@ -13,6 +14,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
@@ -24,6 +26,11 @@ class DefaultController extends AbstractController
     private $translator;
     private $router;
     private $entityManager;
+    private $raceRepository;
+    private $prixRepository;
+    private $annonceRepository;
+    private $groupRepository;
+    private $commentsRepository;
 
     public function __construct(
         PaginatorInterface $paginator,
@@ -33,7 +40,8 @@ class DefaultController extends AbstractController
         RaceRepository $raceRepository,
         PrixRepository $prixRepository,
         AnnonceRepository $annonceRepository,
-        RaceGroupRepository $groupRepository
+        RaceGroupRepository $groupRepository,
+        CommentsRepository $commentsRepository
     ) {
         $this->paginator = $paginator;
         $this->translator = $translator;
@@ -43,6 +51,7 @@ class DefaultController extends AbstractController
         $this->prixRepository = $prixRepository;
         $this->annonceRepository = $annonceRepository;
         $this->groupRepository = $groupRepository;
+        $this->commentsRepository = $commentsRepository;
     }
 
     /**
@@ -123,10 +132,16 @@ class DefaultController extends AbstractController
     /**
      * @Route("/avis", name="el_avis")
      */
-    public function avis(): Response
+    public function avis(Request $request): Response
     {
+        $allComments = $this->commentsRepository->findBy([],['id'=>'DESC']);
+        $allComments = $this->paginator->paginate(
+            $allComments,
+            $request->query->getInt('page', 1),
+            9
+        );
         return $this->render('Front/avis/avis.html.twig', [
-            'controller_name' => 'DefaultController',
+            'allComments' => $allComments,
         ]);
     }
 
