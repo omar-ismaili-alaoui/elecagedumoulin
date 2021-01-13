@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Alimentation{% endblock %}
+{% block title %}Alimentation | {{ parent() }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
@@ -40,4 +40,10 @@
     </ul>
     <hr class="featurette-divider">
 </div>
+{% endblock %}
+
+
+{% block ldjson %}
+    <script type="application/ld+json">[{"@context":"http:\/\/schema.org","@type":"Organization","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr","sameAs":["https:\/\/www.facebook.com\/Élevage-du-moulin-de-Leuville-1671858406233284"]},{"@context":"http:\/\/schema.org","@type":"WebSite","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr\/alimentation"},{"@context":"http:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.elevagedumoulin.fr","name":"Accueil"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/www.elevagedumoulin.fr\/alimentation\/","name":"Alimentation"}}]}]
+</script>
 {% endblock %}

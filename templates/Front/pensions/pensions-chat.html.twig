@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pension pour chats{% endblock %}
+{% block title %}Pension pour chats | {{ parent() }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>

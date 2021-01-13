@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Palmarés{% endblock %}
+{% block title %}Palmarés | {{ parent() }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
@@ -39,7 +39,7 @@
         </a>
     </div>
     <hr class="featurette-divider">
-    <ul class="center-block text-center" id="palmares">
+    <ul class="center-block text-center padding-zero" id="palmares">
         <li>Reprise des concours gibiers tirés année 2020 : 2 trialères
             <ul>
                 <li>Odin du Moulin de Leuville, épagneul breton mâle (Trialère de GT 5 classements)</li>

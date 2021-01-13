@@ -6,6 +6,7 @@ use App\Entity\Prix;
 use App\Entity\Race;
 use App\Repository\AnnonceRepository;
 use App\Repository\CommentsRepository;
+use App\Repository\PageRepository;
 use App\Repository\PrixRepository;
 use App\Repository\RaceGroupRepository;
 use App\Repository\RaceRepository;
@@ -31,6 +32,7 @@ class DefaultController extends AbstractController
     private $annonceRepository;
     private $groupRepository;
     private $commentsRepository;
+    private $pageRepository;
 
     public function __construct(
         PaginatorInterface $paginator,
@@ -41,7 +43,8 @@ class DefaultController extends AbstractController
         PrixRepository $prixRepository,
         AnnonceRepository $annonceRepository,
         RaceGroupRepository $groupRepository,
-        CommentsRepository $commentsRepository
+        CommentsRepository $commentsRepository,
+        PageRepository $pageRepository
     ) {
         $this->paginator = $paginator;
         $this->translator = $translator;
@@ -52,6 +55,7 @@ class DefaultController extends AbstractController
         $this->annonceRepository = $annonceRepository;
         $this->groupRepository = $groupRepository;
         $this->commentsRepository = $commentsRepository;
+        $this->pageRepository = $pageRepository;
     }
 
     /**
@@ -59,21 +63,48 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
+        $page = $this->pageRepository->findOneBy(['url'=>'/']);
         return $this->render('Front/index.html.twig', [
-            'controller_name' => 'DefaultController',
+            'page' => $page,
         ]);
     }
 
     /**
-     * @Route("/nos-races/{group}", name="el_race_group", requirements={"page"="\d+"}, defaults={"group"=1})
+     * @Route("/mentions-legales", name="el_mentions")
+     */
+    public function mentions(): Response
+    {
+        $page = $this->pageRepository->findOneBy(['url'=>'/']);
+        return $this->render('Front/mentions/mentions-legales.html.twig', [
+            'page' => $page,
+        ]);
+    }
+
+    /**
+     * @Route("/nos-races/{group}", name="el_race_group", requirements={"page"="\s+"})
      */
     public function racesGroup($group): Response
     {
-        $races = $this->groupRepository->find($group);
+        $races = $this->groupRepository->findOneBy(['url'=>$group]);
+        switch($races->getTitre()){
+            case 'Épagneule breton bicolore':
+                $page = $this->pageRepository->findOneBy(['url'=>'chiots-epagneuls-bretons']);
+                break;
+            case 'Épagneule breton tricolore':
+                $page = $this->pageRepository->findOneBy(['url'=>'chiots-epagneuls-bretons']);
+                break;
+            case 'Griffon Korthal':
+                $page = $this->pageRepository->findOneBy(['url'=>'chiots-griffons-krothals']);
+                break;
+            case 'Labrador du retriever':
+                $page = $this->pageRepository->findOneBy(['url'=>'chiots-labradors']);
+                break;
+        }
         if($races === null ){
             throw new Exception('Race not found');
         }
         return $this->render('Front/races/race-group.html.twig', [
+            'page' => $page,
             'races' => $races,
         ]);
     }
@@ -123,9 +154,11 @@ class DefaultController extends AbstractController
      */
     public function prix(): Response
     {
+        $page = $this->pageRepository->findOneBy(['url'=>'prix']);
         $groupPrices = $this->groupRepository->findAll();
         return $this->render('Front/prix/prix.html.twig', [
             'groupPrices' => $groupPrices,
+            'page' => $page,
         ]);
     }
 
@@ -134,14 +167,18 @@ class DefaultController extends AbstractController
      */
     public function avis(Request $request): Response
     {
+        $page = $this->pageRepository->findOneBy(['url'=>'avis']);
         $allComments = $this->commentsRepository->findBy([],['id'=>'DESC']);
+        $countComments = count($allComments);
         $allComments = $this->paginator->paginate(
             $allComments,
             $request->query->getInt('page', 1),
             9
         );
         return $this->render('Front/avis/avis.html.twig', [
+            'countComments' => $countComments,
             'allComments' => $allComments,
+            'page' => $page,
         ]);
     }
 
@@ -160,8 +197,9 @@ class DefaultController extends AbstractController
      */
     public function dressage(): Response
     {
+        $page = $this->pageRepository->findOneBy(['url'=>'dressage']);
         return $this->render('Front/dressage/dressage.html.twig', [
-            'controller_name' => 'DefaultController',
+            'page' => $page
         ]);
     }
 

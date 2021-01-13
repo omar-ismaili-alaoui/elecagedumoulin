@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Étalons{% endblock %}
+{% block title %}Étalons | {{ parent() }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>

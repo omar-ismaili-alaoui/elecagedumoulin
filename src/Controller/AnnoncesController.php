@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\AnnonceRepository;
+use App\Repository\PageRepository;
 use App\Repository\PrixRepository;
 use App\Repository\RaceRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,23 +22,23 @@ class AnnoncesController extends AbstractController
     private $translator;
     private $router;
     private $entityManager;
+    private $annonceRepository;
+    private $pageRepository;
 
     public function __construct(
         PaginatorInterface $paginator,
         TranslatorInterface $translator,
         RouterInterface $router,
         EntityManagerInterface $entityManager,
-        RaceRepository $raceRepository,
-        PrixRepository $prixRepository,
-        AnnonceRepository $annonceRepository
+        AnnonceRepository $annonceRepository,
+        PageRepository $pageRepository
     ) {
         $this->paginator = $paginator;
         $this->translator = $translator;
         $this->router = $router;
-        $this->raceRepository = $raceRepository;
         $this->entityManager = $entityManager;
-        $this->prixRepository = $prixRepository;
         $this->annonceRepository = $annonceRepository;
+        $this->pageRepository = $pageRepository;
     }
 
     /**
@@ -45,6 +46,8 @@ class AnnoncesController extends AbstractController
      */
     public function index(Request $request): Response
     {
+
+        $page = $this->pageRepository->findOneBy(['url'=>'annonces']);
         $allAnnonces = $this->annonceRepository->findBy([],['datePublished'=>'DESC']);
         $pagination = $this->paginator->paginate(
             $allAnnonces, /* query NOT result */
@@ -52,6 +55,7 @@ class AnnoncesController extends AbstractController
             5/*limit per page*/
         );
         return $this->render('Front/annonces/annonces.html.twig', [
+            'page' => $page,
             'annonces' => $pagination,
         ]);
     }

@@ -5,8 +5,23 @@
 /* Sticky footer styles
 -------------------------------------------------- */
 
+.footer {
+    width: 100%;
+    background-color: #f5f5f5;
+}
+
+.navbar-inverse .navbar-header .navbar-brand {
+  color: #1b9448;
+  padding-top: 15px;
+}
+
+.art-headline{
+  img{
+    max-width: 320px;
+  }
+}
+
 body {
-  padding-bottom: 40px;
   color: #5a5a5a;
 }
 
@@ -41,10 +56,6 @@ body {
 
 .page-title{
   margin-bottom: 20px;
-}
-
-footer li{
-  list-style: none;
 }
 
 .navbar.navbar-inverse.navbar-static-top{
@@ -147,11 +158,37 @@ p.lead{
   list-style: none;
 }
 
+.padding-zero{
+  padding: 0;
+  ul{
+    padding: 0;
+  }
+}
+
+.width-100{
+  width: 100%;
+}
+
+.footer{
+  padding: 20px;
+  li{
+    list-style: initial;
+    a{
+      color: #DB4D14;
+    }
+  }
+}
+
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
 @media (min-width: 768px) {
+
+
+  .navbar-inverse .navbar-header .navbar-brand {
+    display: none;
+  }
 
   .navbar-wrapper .container.container-nav{
     padding: 0 240px;

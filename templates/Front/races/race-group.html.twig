@@ -1,23 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Nos races d'élevage | {{ parent() }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block keywords %}{{ page.keywords }}{% endblock %}
 
 {% block breadcrumb %}
-    <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
+    <li><a href="{{ path('el_welcome')}}">Accueil</a></li>
     <li class="active">{{ races.titre }}</li>
 {% endblock %}
 
 {% block body %}
     <!-- Example row of columns -->
     <h1 class="center-block text-center">{{ races.titre }}</h1>
-    <br/><br/>
+    <hr class="featurette-divider">
+
     <div id="myCarousel" class="carousel bigger slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            {% for image in races.raceGroupImages %}
-            <li data-target="#myCarousel" data-slide-to="{{ loop.index -1 }}" {% if loop.index -1 == 0 %}class="active"{% endif %}></li>
-            {% endfor %}
-        </ol>
         <div class="carousel-inner" role="listbox">
             {% for image in races.raceGroupImages %}
             <div class="text-center item {% if loop.index == 1 %}active{% endif %}">
@@ -34,10 +31,16 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <hr class="featurette-divider">
     <p class="col-md-12">
         {{ races.text | raw }}
     </p>
     <hr class="featurette-divider">
         <p><em><strong>Pour l'alimentation et recommandation pour nos chiots, veuillez consulter la page dédiée <a href={{ path('el_alimentations') }} title="alimentation-et-recommandation">ici</a></strong></em></p>
     <hr class="featurette-divider">
+{% endblock %}
+
+{% block ldjson %}
+<script type="application/ld+json">[{"@context":"http:\/\/schema.org","@type":"Organization","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr","sameAs":["https:\/\/www.facebook.com\/Élevage-du-moulin-de-Leuville-1671858406233284"]},{"@context":"http:\/\/schema.org","@type":"WebSite","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr\/nos-races\/{{ races.url }}"},{"@context":"http:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.elevagedumoulin.fr","name":"Accueil"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/www.elevagedumoulin.fr\/nos-races\/{{ races.url }}","name":"{{ races.titre }}"}}]}]
+</script>
 {% endblock %}

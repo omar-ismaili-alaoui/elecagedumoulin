@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Émissions Tv{% endblock %}
+{% block title %}Émissions Tv | {{ parent() }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>

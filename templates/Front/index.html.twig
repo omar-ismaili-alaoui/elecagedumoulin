@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil | {{ parent() }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block keywords %}{{ page.keywords }}{% endblock %}
 
 {% block carousel %}
     <!-- Example row of columns -->
@@ -8,16 +10,16 @@
 
         <div class="row">
             <div class="col-md-12 center-block text-center">
-                <h1 class="page-title">Bonjour et bienvenue sur notre site de pension canine et féline et notre élevage de chiens de races et d'arrêt</h1>
+                <h1 class="page-title">{{ page.titre | capitalize }}</h1>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ asset('PhotosSite/AccueilSite/yuliya.jpg') }}"/>
+                <img class="width-100" src="{{ asset('PhotosSite/AccueilSite/yuliya.jpg') }}"/>
             </div>
             <div class="col-md-6">
-                <img src="{{ asset('PhotosSite/AccueilSite/Bernard.jpg') }}"/>
+                <img class="width-100" src="{{ asset('PhotosSite/AccueilSite/Bernard.jpg') }}"/>
             </div>
             <div class="col-md-12">
                 <p class="lead center-block text-center">Nous sommes heureux de vous accueillir sur notre site internet d'élevage de chiens de chasse.<br/><br/>
@@ -87,14 +89,15 @@
                 </p>
             </div>
             <div class="col-md-5 col-md-pull-7">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10562.469627133341!2d2.2822269!3d48.5597226!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x186537c33b95dd7c!2sElevage%20Du%20Moulin!5e0!3m2!1sfr!2sfr!4v1580390047124!5m2!1sfr!2sfr" width="500" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>            </div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10562.469627133341!2d2.2822269!3d48.5597226!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x186537c33b95dd7c!2sElevage%20Du%20Moulin!5e0!3m2!1sfr!2sfr!4v1580390047124!5m2!1sfr!2sfr" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>            </div>
         </div>
 
         <hr class="featurette-divider">
 
-        {% block additionnalJavascripts %}
-        <script type="application/ld+json">[{"@context":"http:\/\/schema.org","@type":"Organization","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr","sameAs":["https:\/\/twitter.com\/elevagedumoulin","https:\/\/www.facebook.com\/Élevage-du-moulin-de-Leuville-1671858406233284"]},{"@context":"http:\/\/schema.org","@type":"WebSite","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr"},{"@context":"http:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.elevagedumoulin.fr\/","name":"Accueil"}}]}]</script>
-        {% endblock %}
-
     </div>
+{% endblock %}
+
+{% block ldjson %}
+<script type="application/ld+json">[{"@context":"http:\/\/schema.org","@type":"Organization","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr","sameAs":["https:\/\/twitter.com\/elevagedumoulin","https:\/\/www.facebook.com\/Élevage-du-moulin-de-Leuville-1671858406233284"]},{"@context":"http:\/\/schema.org","@type":"WebSite","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr"},{"@context":"http:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.elevagedumoulin.fr\/","name":"Accueil"}}]}]
+</script>
 {% endblock %}

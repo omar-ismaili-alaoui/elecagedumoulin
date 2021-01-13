@@ -8,6 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <a class="navbar-brand" href="#">Elevage Du Moulin de Leuville</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -16,13 +17,13 @@
                     <li class="dropdown{% if route == 'el_race_group' or route == 'el_alimentations' %} active{% endif %}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nos races <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li{% if route == 'el_race_group' and group == 1 %} class="active"{% endif %}><a href="{{ path('el_race_group',{'group':1}) }}"><i class="glyphicon glyphicon-chevron-right"></i> Épagneuls bretons bicolores</a></li>
+                            <li{% if route == 'el_race_group' and group == 'epagneule-breton-bicolore' %} class="active"{% endif %}><a href="{{ path('el_race_group',{'group':'epagneule-breton-bicolore'}) }}"><i class="glyphicon glyphicon-chevron-right"></i> Épagneuls bretons bicolores</a></li>
                             <li role="separator" class="divider"></li>
-                            <li{% if route == 'el_race_group' and group == 2 %} class="active"{% endif %}><a href="{{ path('el_race_group',{'group':2}) }}"><i class="glyphicon glyphicon-chevron-right"></i> Épagneuls bretons tricolores</a></li>
+                            <li{% if route == 'el_race_group' and group == 'epagneule-breton-tricolore' %} class="active"{% endif %}><a href="{{ path('el_race_group',{'group':'epagneule-breton-tricolore'}) }}"><i class="glyphicon glyphicon-chevron-right"></i> Épagneuls bretons tricolores</a></li>
                             <li role="separator" class="divider"></li>
-                            <li{% if route == 'el_race_group' and group == 3 %} class="active"{% endif %}><a href="{{ path('el_race_group',{'group':3}) }}"><i class="glyphicon glyphicon-chevron-right"></i> Griffons Korthals</a></li>
+                            <li{% if route == 'el_race_group' and group == 'griffon-korthal' %} class="active"{% endif %}><a href="{{ path('el_race_group',{'group':'griffon-korthal'}) }}"><i class="glyphicon glyphicon-chevron-right"></i> Griffons Korthals</a></li>
                             <li role="separator" class="divider"></li>
-                            <li{% if route == 'el_race_group' and group == 4 %} class="active"{% endif %}><a href="{{ path('el_race_group',{'group':4}) }}"><i class="glyphicon glyphicon-chevron-right"></i> Labradors</a></li>
+                            <li{% if route == 'el_race_group' and group == 'labrador-du-retriever' %} class="active"{% endif %}><a href="{{ path('el_race_group',{'group':'labrador-du-retriever'}) }}"><i class="glyphicon glyphicon-chevron-right"></i> Labradors</a></li>
                             <li role="separator" class="divider"></li>
                             <li{% if route == 'el_alimentations' %} class="active"{% endif %}><a href="{{ path('el_alimentations') }}"><i class="glyphicon glyphicon-chevron-right"></i> Alimentaions et recommendations</a></li>
                         </ul>

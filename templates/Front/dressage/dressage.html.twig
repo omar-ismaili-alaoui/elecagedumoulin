@@ -1,26 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dressage{% endblock %}
+{% block title %}Dressage | {{ parent() }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block keywords %}{{ page.keywords }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
-    <li class="active">Dressage</li>
+    <li class="active">{{ page.breadcrump }}</li>
 {% endblock %}
 
 {% block body %}
-    <!-- Example row of columns -->
+    <h1 class="text-center">{{page.titre}}</h1>
+    <hr class="featurette-divider">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img class="first-slide" src="{{ asset('/PhotosSite/Dressage/Dressage.JPG')}}" alt="First slide">
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Example headline.</h1>
-                        <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-                    </div>
-                </div>
+            {% for image in page.pageImages %}
+            <div class="item {% if loop.index == 1 %}active{% endif %}">
+                <img class="first-slide" src="{{ asset('uploads/'~image.url)}}" alt="First slide">
             </div>
+            {% endfor %}
         </div>
     </div>
+    {{ page.content | raw }}
+{% endblock %}
+
+{% block ldjson %}
+    <script type="application/ld+json">[{"@context":"http:\/\/schema.org","@type":"Organization","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr","sameAs":["https:\/\/www.facebook.com\/Élevage-du-moulin-de-Leuville-1671858406233284"]},{"@context":"http:\/\/schema.org","@type":"WebSite","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr\/dressage"},{"@context":"http:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.elevagedumoulin.fr","name":"Accueil"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/www.elevagedumoulin.fr\/dressage","name":"Dressage canin"}}]}]
+    </script>
 {% endblock %}

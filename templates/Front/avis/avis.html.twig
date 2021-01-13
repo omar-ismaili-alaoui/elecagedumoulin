@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Avis des clients{% endblock %}
+{% block title %}Avis des clients | {{ parent() }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block keywords %}{{ page.keywords }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
-    <li class="active">Avis des clients</li>
+    <li class="active">{{ page.breadcrump }}</li>
 {% endblock %}
 
 {% block body %}
@@ -13,10 +15,15 @@
 
         <div class="row">
             <div class="col-md-12 center-block text-center">
-                <h1 class="page-title">LES AVIS ET RETOURS D'EXPERIENCES DE NOS CLIENT</h1>
+                <h1 class="page-title">{{ page.titre }}</h1>
             </div>
         </div>
-
+        <hr class="featurette-divider">
+        <div class="row">
+            <div class="col-md-12 center-block text-center">
+                <h2 class="page-title">Avec {{ countComments }} Avis vérifiés</h2>
+            </div>
+        </div>
         <hr class="featurette-divider">
         {% for comment in allComments %}
             <div class="row">
@@ -28,7 +35,7 @@
                     <p>De : {{ comment.ville | capitalize }}</p>
                 </div>
                 <div class="col-md-8">
-                    <h2 class="no-margin-top">{{ comment.titre | capitalize }}</h2>
+                    <h3 class="no-margin-top">{{ comment.titre | capitalize }}</h3>
                     <p>
                         <i class="label label-info">Publié le : {{ comment.published | date('d-m-Y') }}</i>
                         <i class="label label-success">Expérience du : {{ comment.lived | date('d-m-Y') }}</i>

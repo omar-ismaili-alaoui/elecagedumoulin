@@ -1,16 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonces{% endblock %}
+{% block title %}Annonces | {{ parent() }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block keywords %}{{ page.keywords }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
-    <li class="active">Annonces</li>
+    <li class="active">{{ page.breadcrump }}</li>
 {% endblock %}
 
 {% block body %}
     <!-- START THE FEATURETTES -->
 <div class="marketing text-center">
-    <h1>Annonces des portées de chiots</h1>
+    <h1 class="text-center">{{page.titre}}</h1>
     <hr class="featurette-divider">
     {% for annonce in annonces %}
         <div class="row featurette" id="{{ annonce.titre }}">

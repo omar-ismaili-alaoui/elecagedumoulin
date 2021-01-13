@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Prix{% endblock %}
+{% block title %}Prix | {{ parent() }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block keywords %}{{ page.keywords }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
@@ -13,9 +15,10 @@
 
         <div class="row">
             <div class="col-md-12 center-block text-center">
-                <h1 class="page-title">LES PRIX DES DIFFÉRENTES PORTÉES DE CHIOTS</h1>
+                <h1 class="page-title">{{ page.titre }}</h1>
             </div>
         </div>
+        <hr class="featurette-divider">
         <!-- Three columns of text below the carousel -->
         <div class="row">
             {% for groupPrice in groupPrices %}
@@ -26,7 +29,6 @@
             </div><!-- /.col-lg-4 -->
             {% endfor %}
         </div><!-- /.row -->
-
 
         <hr class="featurette-divider">
         {% for groupPrice in groupPrices %}
