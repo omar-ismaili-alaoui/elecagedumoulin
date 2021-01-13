@@ -41,9 +41,9 @@
                 {% include "Front/annonces/annonces-images.html.twig" with {"annonce": annonce} %}
                 <br/><br/>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalImages-{{ loop.index }}">
-                    <i class="glyphicon glyphicon-picture"></i> Agrandir les images
+                    <i class="glyphicon glyphicon-zoom-in"></i>
                 </button>
-                <a href="{{ path('el_contact') }}" class="btn btn-success"><i class="glyphicon glyphicon-envelope"></i> Acheter ou reserver</a>
+                <a href="{{ path('el_contact') }}" class="btn btn-success"><i class="glyphicon glyphicon-envelope"></i></a>
 
                 <!-- Modal -->
                 <div class="modal fade" id="modalImages-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="modalImages-{{ loop.index }}-Label">

@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Comments;
 use App\Entity\Prix;
 use App\Entity\Race;
+use App\Form\CommentsType;
+use App\Forms\Type\UserType;
 use App\Repository\AnnonceRepository;
 use App\Repository\CommentsRepository;
 use App\Repository\PageRepository;
@@ -136,8 +139,9 @@ class DefaultController extends AbstractController
      */
     public function etalons(): Response
     {
+        $page = $this->pageRepository->findOneBy(['url'=>'etalons']);
         return $this->render('Front/etalons/etalons.html.twig', [
-            'controller_name' => 'DefaultController',
+            'page' => $page,
         ]);
     }
 
@@ -146,8 +150,9 @@ class DefaultController extends AbstractController
      */
     public function emissions(): Response
     {
+        $page = $this->pageRepository->findOneBy(['url'=>'emissions-tv']);
         return $this->render('Front/emissions/emissions.html.twig', [
-            'controller_name' => 'DefaultController',
+            'page' => $page,
         ]);
     }
 
@@ -169,6 +174,15 @@ class DefaultController extends AbstractController
      */
     public function avis(Request $request): Response
     {
+        $comment = new Comments();
+        $form = $this->createForm( CommentsType::class, $comment, ['current_form_type' => "INACTIVE"]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setActive(0);
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('el_avis');
+        }
         $page = $this->pageRepository->findOneBy(['url'=>'avis']);
         $allComments = $this->commentsRepository->findBy([],['id'=>'DESC']);
         $countComments = count($allComments);
@@ -181,6 +195,7 @@ class DefaultController extends AbstractController
             'countComments' => $countComments,
             'allComments' => $allComments,
             'page' => $page,
+            'form' => $form->createView()
         ]);
     }
 

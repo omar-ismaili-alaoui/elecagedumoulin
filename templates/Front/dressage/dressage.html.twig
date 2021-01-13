@@ -9,7 +9,7 @@
     <li class="active">{{ page.breadcrump }}</li>
 {% endblock %}
 
-{% block body %}
+{% block leftContent %}
     <h1 class="text-center">{{page.titre}}</h1>
     <hr class="featurette-divider">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -22,6 +22,17 @@
         </div>
     </div>
     {{ page.content | raw }}
+
+    {% for video in page.pageVideos %}
+        <hr class="featurette-divider">
+        <h3 style="text-align: center;">{{ video.titre }}</h3>
+        <hr class="featurette-divider">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video.urlCode }}?wmode=transparent"></iframe>
+        </div>
+        <br/><br/>
+    {% endfor %}
+    <hr class="featurette-divider">
 {% endblock %}
 
 {% block ldjson %}

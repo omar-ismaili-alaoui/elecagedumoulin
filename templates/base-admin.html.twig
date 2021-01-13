@@ -9,7 +9,7 @@
         <meta name="theme-color" content="#ffffff">
         <title>Élevage du moulin - ADMIN - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="{{ assets_versionning_admin('app-admin.css') }}">
-        {% block jsTop %}{% endblock %}
+        {% block jsTop %}<script src="{{ asset('js/jquery.min.js') }}"></script>{% endblock %}
     </head>
     <body cz-shortcut-listen="true">
         <header>

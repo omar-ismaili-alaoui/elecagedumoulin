@@ -43,8 +43,8 @@ class TwigExtension extends AbstractExtension
 
         $stars = '';
         for($i=1;$i<=5;$i++){
-            if($i<=$rating) $checked = 'checked';
-            $stars .= '<span class="fa fa-star '.$checked.'"></span>';
+            ($i<=$rating) ? $checked = ' checked' : $checked = '' ;
+            $stars .= '<span class="fa fa-star'.$checked.'"></span>';
         }
         return $stars;
 
