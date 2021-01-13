@@ -114,8 +114,9 @@ class DefaultController extends AbstractController
      */
     public function alimentation(): Response
     {
+        $page = $this->pageRepository->findOneBy(['url'=>'alimentation-et-recommandation']);
         return $this->render('Front/alimentation/alimentation.html.twig', [
-            'controller_name' => 'DefaultController',
+            'page' => $page,
         ]);
     }
 
@@ -124,8 +125,9 @@ class DefaultController extends AbstractController
      */
     public function palmares(): Response
     {
+        $page = $this->pageRepository->findOneBy(['url'=>'palmares']);
         return $this->render('Front/palmares/palmares.html.twig', [
-            'controller_name' => 'DefaultController',
+            'page' => $page,
         ]);
     }
 

@@ -1,47 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Alimentation | {{ parent() }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block keywords %}{{ page.keywords }}{% endblock %}
 
 {% block breadcrumb %}
     <li><a href="{{ path('el_welcome')}}">Acuueil</a></li>
-    <li class="active">Alimentation</li>
+    <li class="active">{{ page.breadcrump }}</li>
 {% endblock %}
 
 {% block body %}
-
 <div class="marketing text-center" id="alimentation">
-    <h1>Origines, alimentation et recommandation</h1>
+    <h1>{{ page.titre }}</h1>
     <hr class="featurette-divider">
-    <h2>Origines</h2>
-    <ul>
-        <li><em><strong>Tout nos reproducteurs et leurs chiots sont issus d'une sélection chasse, travail et beauté</strong></em></li>
-    </ul>
-    <hr class="featurette-divider">
-    <h2>Alimentation</h2>
-    <p>Croquettes spécialement adapté aux chiots si possible Purina-Proplan </p>
-    <ul>
-        <li><em><strong>Jusque 6 mois :&nbsp; 3 fois par jour (matin, midi et soir)</strong></em></li>
-        <li><em><strong>De 6 à 12 mois&nbsp; : 2 fois par jour (peu le matin, le complément le soir) </strong></em></li>
-        <li><em><strong>A 12 mois&nbsp; : Changer et passer à une gamme d'adultes correspondant à la race et la taille du chien </strong></em></li>
-    </ul>
-    <hr class="featurette-divider">
-    <h2>Recommandations</h2>
-    <p>Croquettes spécialement adapté aux chiots si possible Purina-Proplan </p>
-    <ul>
-        <li><em>Lui donner de leau à volonté, pendant et en dehors des repas.</em></li>
-        <li><em>Ne pas donner d<b>os pointus</b> (volaille, lapin).</em></li>
-        <li><em>Vermifuger le chiot tous les mois jusque 6 mois, après vous le faites 2 fois par an.</em></li>
-        <li><em>Laissez votre chiots au contact des autres chiens pour quil se socialise.</em></li>
-        <li><em>Ne pas sortir le chiot ou le mettre en contact avec dautres chiens avant le 2<sup>ème</sup> vaccin.</em></li>
-        <li><em>Si votre chien est apathique, prostré, ne réagit pas comme dhabitude nattendez pas, consulter le vétérinaire.</em></li>
-        <li><em>Vérifier lintérieur des oreilles de votre chiot et brosser le régulièrement.</em></li>
-        <li><em>Lavez les pattes en rentrant de promenade, vérifiez qu'il n'y a rien de coincé entre les doigt et qui pourrait le blesser ou le faire souffrir.</em></li>
-        <li><em>Vous pouvez faire confirmez votre chien à partir d'un an et pour toute sa vie (Votre chien sera inscrit dès qu'il est confirmé il sera inscrit au livre des origines françaises LOF).</em></li>
-    </ul>
+    {{ page.content | raw }}
     <hr class="featurette-divider">
 </div>
 {% endblock %}
-
 
 {% block ldjson %}
     <script type="application/ld+json">[{"@context":"http:\/\/schema.org","@type":"Organization","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr","sameAs":["https:\/\/www.facebook.com\/Élevage-du-moulin-de-Leuville-1671858406233284"]},{"@context":"http:\/\/schema.org","@type":"WebSite","name":"Élevage du moulin de Leuville","url":"https:\/\/www.elevagedumoulin.fr\/alimentation"},{"@context":"http:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.elevagedumoulin.fr","name":"Accueil"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/www.elevagedumoulin.fr\/alimentation\/","name":"Alimentation"}}]}]

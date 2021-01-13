@@ -64,9 +64,15 @@ class Page
      */
     private $pageImages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PageVideos::class, mappedBy="page")
+     */
+    private $pageVideos;
+
     public function __construct()
     {
         $this->pageImages = new ArrayCollection();
+        $this->pageVideos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,6 +200,36 @@ class Page
             // set the owning side to null (unless already changed)
             if ($pageImage->getPage() === $this) {
                 $pageImage->setPage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PageVideos[]
+     */
+    public function getPageVideos(): Collection
+    {
+        return $this->pageVideos;
+    }
+
+    public function addPageVideo(PageVideos $pageVideo): self
+    {
+        if (!$this->pageVideos->contains($pageVideo)) {
+            $this->pageVideos[] = $pageVideo;
+            $pageVideo->setPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageVideo(PageVideos $pageVideo): self
+    {
+        if ($this->pageVideos->removeElement($pageVideo)) {
+            // set the owning side to null (unless already changed)
+            if ($pageVideo->getPage() === $this) {
+                $pageVideo->setPage(null);
             }
         }
 
